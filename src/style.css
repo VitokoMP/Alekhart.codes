@@ -1,0 +1,183 @@
+.navbar-brand-logo{
+    max-width: 35%;
+    padding: 0px 0; /* Espaciado interior */
+    margin-top: -33px;
+    margin-bottom: -33px;
+
+}
+.hero-section {
+    background-image: url('../img/Codes/1.png'); /* Ruta de la imagen de fondo */
+    background-size: cover;
+    background-position: center;
+    padding: 30px 0; /* Espaciado interior */
+    color: white; /* Color de texto */
+}
+
+
+
+.navbar-nav{
+    text-align: right; /* Alineación a la derecha */
+
+}
+
+.navbar-toggler-icon{
+    opacity: 1; /* La imagen comienza completamente transparente */
+
+}
+/* Estilo inicial */
+.img-codes {
+    opacity: 0; /* La imagen comienza completamente transparente */
+    max-width: 100%;
+    height: auto;
+    margin-top: 33px;
+    margin-left: 0px;
+    animation: fadeIn 1s ease-in-out forwards; /* Animación de fadeIn */
+}
+
+/* Definición de la animación */
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* La imagen inicia completamente transparente */
+    }
+    to {
+        opacity: 1; /* La imagen termina completamente visible */
+    }
+}
+
+.background-image-container {
+    position: relative;
+}
+
+.background-image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Capa negra con 50% de opacidad */
+    z-index: 1; /* Coloca la capa encima de la imagen */
+}
+
+.hero-section h1,
+.hero-section p {
+    background-color: rgba(0, 0, 0, 0.5); /* Color de fondo translúcido para texto */
+    padding: 20px; /* Espaciado interno del texto */
+}
+
+.hero-section a.btn {
+    margin-top: 2px; /* Espaciado superior del botón */
+}
+
+/* Estilos para imágenes redondas */
+   
+  /* Estilos generales para todas las pantallas */
+  .round-images-section .col-md-4 img {
+    transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+    margin-bottom: 5px; /* Espaciado entre líneas */
+  }
+  
+  /* Aumento al pasar el cursor */
+  .round-images-section .col-md-4 img:hover {
+    transform: scale(1.1); /* Aumento del 10% al pasar el cursor */
+  }
+  
+  /* Atenuación hacia blanco */
+  .round-images-section .col-md-4 img {
+    filter: brightness(90%); /* Atenuación del 10% hacia blanco */
+  }
+
+  /*seccion navbar*/
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: transparent;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+  }
+  
+  .navbar-brand {
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .nav-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .nav-links li {
+    display: inline-block;
+    margin-right: 20px;
+  }
+  
+  .nav-links li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links li a:hover {
+    color: #e8e8e8;
+  }
+  
+  /* Cambia el color de fondo al hacer scroll */
+   .navbar.scrolled {
+    /*background-color: rgba(0, 0, 0, 0.7); /* Color de fondo con opacidad al hacer scroll */
+    background-color: transparent; /* Hacer la barra de navegación completamente transparente */
+    box-shadow: none; /* Eliminar la sombra */
+}
+
+/*colab and mkt*/
+.background-image-container {
+    background-image: url('../img/Black\ And\ White\ Rock\ Concert\ Flyer.png'); /* Ruta de la imagen de fondo */
+    background-size: cover;
+    background-position: bottom;
+    padding: 100px 0; /* Espaciado interior */
+    color: white; /* Color de texto */}
+
+    
+.background-image-container-contact {
+    background-image: url('../img/3.png'); /* Ruta de la imagen de fondo */
+    background-size: cover;
+    background-position: bottom;
+    padding: 100px 0; /* Espaciado interior */
+    color: rgba(0, 0, 0, 0.845); /* Color de texto */}
+    .aligned-section {
+        padding: 50px 0; /* Espaciado interior */
+        background-color: #f0f0f000; /* Color de fondo opcional */
+    }
+    
+    .aligned-section p {
+        text-align: right; /* Alineación a la derecha */
+        margin-bottom: 20px; /* Espacio entre párrafos */
+    }
+    
+ /* Media query para tablets y computadoras */
+  @media (min-width: 768px) {
+    .round-images-section .col-md-4 img {
+      margin-top: 5px; /* Margen superior de 5px en tablets y computadoras */
+    }
+  }
+  
+/* Media query para dispositivos móviles (ancho máximo de 767px) */
+@media (max-width: 767px) {
+    .hero-section {
+        padding-top: 120px; /* Más margen desde arriba en dispositivos móviles */
+    }
+    .img-codes{
+        max-width: 200%;
+        margin-top: -2px;
+        margin-left: -300px;
+    }
+}
