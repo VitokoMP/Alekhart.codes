@@ -6,14 +6,12 @@
 
 }
 .hero-section {
-    background-image: url('../img/Codes/1.png'); /* Ruta de la imagen de fondo */
+    background-image: url('../img/Home.png'); /* Ruta de la imagen de fondo */
     background-size: cover;
     background-position: center;
     padding: 30px 0; /* Espaciado interior */
     color: white; /* Color de texto */
 }
-
-
 
 .navbar-nav{
     text-align: right; /* Alineación a la derecha */
@@ -46,17 +44,6 @@
 
 .background-image-container {
     position: relative;
-}
-
-.background-image-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Capa negra con 50% de opacidad */
-    z-index: 1; /* Coloca la capa encima de la imagen */
 }
 
 .hero-section h1,
@@ -140,7 +127,7 @@
 
 /*colab and mkt*/
 .background-image-container {
-    background-image: url('../img/Black\ And\ White\ Rock\ Concert\ Flyer.png'); /* Ruta de la imagen de fondo */
+    background-image: url('../public/img/black.png'); /* Ruta de la imagen de fondo */
     background-size: cover;
     background-position: bottom;
     padding: 100px 0; /* Espaciado interior */
@@ -181,3 +168,79 @@
         margin-left: -300px;
     }
 }
+
+/* header de cards + en FAQs.css */
+
+.my-5 {
+  margin-top: 3rem !important;
+  margin-bottom: 3rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.card {
+  border: 1px solid #ddd;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #0b6bcbd4;
+  cursor: pointer;
+}
+
+.card-header::after {
+  content: '+';
+  font-size: 1.25rem;
+}
+
+.card-body {
+  background-color: white;
+}
+
+.card-text {
+  margin: 0;
+  color: black;
+}
+
+/*atencion con las modificaciones al footer, requiere img de certificado PD.*/
+
+/* Estilos para el footer */
+footer {
+  background-color: #343a40;
+  color: #fff;
+}
+
+footer a {
+  color: #fff;
+}
+
+footer a:hover {
+  color: #ffc107;
+}
+
+footer ul {
+  padding: 0;
+  list-style: none;
+}
+
+footer .container {
+  max-width: 1200px;
+}
+
+footer .py-4 {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+footer .bg-secondary {
+  background-color: #6c757d;
+}
+
+footer .bg-secondary p {
+  margin-bottom: 0;
+}
+

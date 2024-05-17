@@ -2,6 +2,7 @@
 export const ContactScreen = () => {
   return (
     <div>
+      
       <section className= "background-image-container-contact">
     <section className="round-images-section">
       <div className="container">
@@ -18,17 +19,14 @@ export const ContactScreen = () => {
           </div>
       </div>
     </section>
-    <section className="aligned-section">
-    <div className="container">
-        <div className="row">
-            <div className="col-md-6 offset-md-6">
-                <p>Párrafo 1</p>
-                <p>Párrafo 2</p>
-                <p>Párrafo 3</p>
+    <div className="container py-5">
+          <div className="row">
+            <div className="col-md-8 offset-md-2 text-center">
+              <h2>¿Listo para potenciar tu negocio?</h2>
+              <p>Contáctanos para obtener más información sobre nuestros servicios de marketing.</p>
             </div>
+          </div>
         </div>
-    </div>
-</section>
 </section>
     </div>
   )

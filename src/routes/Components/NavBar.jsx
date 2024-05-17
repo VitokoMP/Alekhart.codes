@@ -43,7 +43,7 @@ export const NavBar = () => {
                 >
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbarNav">
+                <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
                             <NavLink to="/" className="nav-link">

@@ -1,17 +1,46 @@
 export const AboutScreen = () => {
   return (
+<div>
+    <footer className="bg-dark text-light">
+    <div className="container py-4">
+      <div className="row">
+          <div className="col-md-4 text-center">
+        <h5>Certificaciones 2024</h5>
+        <br></br>
+        <img src="../img/28b5ab9353df421e833bf7a000151726.png" alt="Certificado HubSpot" className="img-fluid mb-3" />
+      </div>
+        <div className="col-md-4 text-center">
+          <h5>Contacto</h5>
+          <br></br>
+          <ul className="list-unstyled text-center">
+            <li><i className="fas fa-map-marker-alt"></i> Dirección: Ciudad, País</li>
+            <li><i className="fas fa-phone-alt"></i> Teléfono: +123456789</li>
+            <li><i className="fas fa-envelope"></i> Email: info@tuempresa.com</li>
+          </ul>
+          <h5>Redes Sociales</h5>
+          <br></br>
+          <ul className="list-unstyled text-center">
+            <li><a href="#"><i className="fab fa-facebook-f"></i> Facebook</a></li>
+            <li><a href="#"><i className="fab fa-twitter"></i> Twitter</a></li>
+            <li><a href="#"><i className="fab fa-instagram"></i> Instagram</a></li>
+          </ul>
+        </div>
 
-          <div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <h2>Diseño de Páginas Web con React JS</h2>
-            <p>Nuestro equipo especializado en diseño web utiliza la tecnología React JS para crear sitios web modernos,
-                interactivos y altamente funcionales. Con React JS, podemos ofrecer una experiencia de usuario excepcional
-                y optimizar el rendimiento de tu sitio web.</p>
+        <div className="col-md-4 text-center">
+          <h5>Asesoría gratuita</h5>
+          <br></br>
+          <p>"La clave del éxito es empezar antes de estar listo" M.Forteo </p>
+          <img src="../img/La clave del éxito.png" alt="Asesoria-gratuita" className="img-fluid mb-3" />
+     
+        </div>
+      </div>
+    </div>
+    <div className="text-center py-3 bg-secondary">
+      <p>&copy; 2024 Alekhart.Codes | Todos los derechos reservados.</p>
+    </div>
+  </footer>
+  
         </div>
   )
 }
+export default AboutScreen;
