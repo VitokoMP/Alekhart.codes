@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { UsuarioContext } from "../context/UsuarioContext";
 import FAQSection from "./Components/FAQSection"; // Asegúrate de ajustar la ruta según tu estructura de archivos
 import { AboutScreen } from "./AboutScreen";
+import Popup from "./Components/PopUpHome";
 
 export const HomeScreen = () => {
   const { usuario } = useContext(UsuarioContext); // utilizar el contexto puntual.
@@ -18,9 +19,7 @@ export const HomeScreen = () => {
                 src="../img/Codes/Codes.png"
                 alt="codes"
               />
-              <a href="#" className="btn btn-primary">
-                Conoce más
-              </a>
+               <Popup/>
             </div>
           </div>
         </div>
@@ -31,13 +30,11 @@ export const HomeScreen = () => {
           <div className="container">
             <div className="row justify-content-md-center">
               <div className="col-md-4 col-sm-12 text-center mb-4 mb-md-0">
-                <h1>Diseño Web con React JS</h1>
+                <h1>Diseño Web con Alekhart.Code </h1>
                 <p className="ml-md-3">
                   Nuestro equipo especializado en diseño web utiliza la
                   tecnología React JS para crear sitios web modernos,
-                  interactivos y altamente funcionales. Con React JS, podemos
-                  ofrecer una experiencia de usuario excepcional y optimizar el
-                  rendimiento de tu sitio web.
+                  interactivos y altamente funcionales.
                 </p>
               </div>
             </div>
@@ -56,13 +53,8 @@ export const HomeScreen = () => {
                 src="../imgoffset/3-1.png"
                 alt="codes"
               />
-              <p className="ml-md-3">
-                Desde mis primeros días como Consultor Senior hasta mi evolución
-                como diseñador y artesano, he encontrado en el arte un medio
-                para explorar y compartir mi visión única del mundo. Cada obra
-                que creo es el resultado de una combinación de experiencia,
-                pasión y dedicación, reflejando mi profundo compromiso con el
-                arte y la belleza en todas sus formas.
+              <p className="ml-md-3"> 
+              Arte como reflejo de experiencia, pasión y dedicación.
               </p>
             </div>
             <div className="col-md-4 col-sm-12 text-center mb-4 mb-md-0">
@@ -73,13 +65,7 @@ export const HomeScreen = () => {
                 alt="codes"
               />
               <p className="ml-md-3">
-                Al invertir en mi formación y explorar nuevas habilidades, he
-                aprendido a diseñar no solo experiencias digitales, sino también
-                viajes memorables que capturan la esencia de la exploración y la
-                pasión por descubrir nuevos horizontes. ¿Por qué yo? Porque
-                entiendo que cada viaje es único, y estoy aquí para ayudarte a
-                crear el tuyo propio, lleno de emociones y experiencias
-                inolvidables.
+              Viajes que capturan esencia cultural y pasión por descubrir.
               </p>
             </div>
             <div className="col-md-4 col-sm-12 text-center">
@@ -89,11 +75,7 @@ export const HomeScreen = () => {
                 src="../imgoffset/5-1.png"
                 alt="codes"
               />
-              <p className="ml-md-3">
-                Mi trayectoria profesional es una historia de transformación y
-                compromiso. Desde mi experiencia como Consultor Senior hasta
-                convertirme en diseñador y artesano, he forjado un camino único
-                que refleja mi pasión por hacer una diferencia en la sociedad.
+              <p className="ml-md-3">Trayectoria de transformación social y compromiso ecológico.
               </p>
             </div>
             <div>

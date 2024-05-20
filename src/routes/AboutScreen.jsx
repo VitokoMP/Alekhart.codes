@@ -13,16 +13,16 @@ export const AboutScreen = () => {
           <h5>Contacto</h5>
           <br></br>
           <ul className="list-unstyled text-center">
-            <li><i className="fas fa-map-marker-alt"></i> Dirección: Ciudad, País</li>
-            <li><i className="fas fa-phone-alt"></i> Teléfono: +123456789</li>
-            <li><i className="fas fa-envelope"></i> Email: info@tuempresa.com</li>
+            <li><i className="fas fa-map-marker-alt"></i> Dirección: Chiloe, Chonchi, Cucao</li>
+            <li><i className="fas fa-phone-alt"></i> Teléfono: +56 973156446</li>
+            <li><i className="fas fa-envelope"></i> Email: victor19.mp@gmail.com</li>
           </ul>
           <h5>Redes Sociales</h5>
           <br></br>
           <ul className="list-unstyled text-center">
-            <li><a href="#"><i className="fab fa-facebook-f"></i> Facebook</a></li>
-            <li><a href="#"><i className="fab fa-twitter"></i> Twitter</a></li>
-            <li><a href="#"><i className="fab fa-instagram"></i> Instagram</a></li>
+            <li><a href="https://web.facebook.com/Alekhart.Codes/"><i className="fab fa-facebook-f"></i> Facebook</a></li>
+            <li><a href="@VictorMolia46904"><i className="fab fa-twitter"></i> Twitter</a></li>
+            <li><a href="https://www.instagram.com/alekhart.codes/"><i className="fab fa-instagram"></i> Instagram</a></li>
           </ul>
         </div>
 
