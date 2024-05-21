@@ -31,10 +31,19 @@ export const HomeScreen = () => {
             <div className="row justify-content-md-center">
               <div className="col-md-4 col-sm-12 text-center mb-4 mb-md-0">
                 <h1>Diseño Web con Alekhart.Code </h1>
+                <br></br>
                 <p className="ml-md-3">
-                  Nuestro equipo especializado en diseño web utiliza la
-                  tecnología React JS para crear sitios web modernos,
-                  interactivos y altamente funcionales.
+                En Alekhart.Code, nos especializamos en diseño web utilizando la tecnología React JS (JavaScript) para crear sitios modernos, interactivos y altamente funcionales.
+               </p>
+                <br></br>
+                <p className="ml-md-3">
+                Nuestro equipo combina habilidades técnicas con un profundo entendimiento del comportamiento de los usuarios para dotar a cada diseño de una personalidad única y auténtica.
+
+                </p>
+                <br></br>
+                <p className="ml-md-3">
+                Entendemos la importancia de tener una presencia en línea sólida en el año 2024. Por eso, desarrollamos estrategias integrales que incluyen el uso efectivo de las redes sociales para potenciar el lanzamiento de tu sitio web. ¿Has considerado colaborar con influencers para aumentar tu visibilidad? ¡Estamos aquí para ayudarte! Contáctanos y coordinaremos estrategias que se adapten a tus necesidades y objetivos.
+ 
                 </p>
               </div>
             </div>
@@ -54,7 +63,7 @@ export const HomeScreen = () => {
                 alt="codes"
               />
               <p className="ml-md-3"> 
-              Arte como reflejo de experiencia, pasión y dedicación.
+              Trabajemos el arte como reflejo de experiencia, pasión y dedicación.
               </p>
             </div>
             <div className="col-md-4 col-sm-12 text-center mb-4 mb-md-0">
@@ -65,7 +74,7 @@ export const HomeScreen = () => {
                 alt="codes"
               />
               <p className="ml-md-3">
-              Viajes que capturan esencia cultural y pasión por descubrir.
+              Demos vida a viajes que capturan esencia cultural y pasión por descubrir.
               </p>
             </div>
             <div className="col-md-4 col-sm-12 text-center">
@@ -75,7 +84,8 @@ export const HomeScreen = () => {
                 src="../imgoffset/5-1.png"
                 alt="codes"
               />
-              <p className="ml-md-3">Trayectoria de transformación social y compromiso ecológico.
+              <p className="ml-md-3">
+                Adentrémonos juntos mostrando tu trayectoria de transformación social y compromiso ecológico.
               </p>
             </div>
             <div>

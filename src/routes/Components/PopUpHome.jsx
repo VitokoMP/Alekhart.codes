@@ -15,7 +15,7 @@ function Popup() {
   
     return (
       <div>
-        <button onClick={togglePopup} className ="btn btn-primary">Contácto</button>
+        <button onClick={togglePopup} className ="btn btn-primary">Contáctame</button>
         {showPopup && (
           <div className="popup-container">
             <div className="popup">

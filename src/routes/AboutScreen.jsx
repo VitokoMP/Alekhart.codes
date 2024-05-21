@@ -13,7 +13,7 @@ export const AboutScreen = () => {
           <h5>Contacto</h5>
           <br></br>
           <ul className="list-unstyled text-center">
-            <li><i className="fas fa-map-marker-alt"></i> Dirección: Chiloe, Chonchi, Cucao</li>
+            <li><i className="fas fa-map-marker-alt"></i> Dirección: Cucao, Chonchi, Chiloé - Chile </li>
             <li><i className="fas fa-phone-alt"></i> Teléfono: +56 973156446</li>
             <li><i className="fas fa-envelope"></i> Email: victor19.mp@gmail.com</li>
           </ul>
