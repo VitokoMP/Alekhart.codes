@@ -83,6 +83,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
 }
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -260,11 +261,11 @@ overflow: hidden;
 
 @media (max-width: 400px) {
   .navbar-collapse {
-    justify-content: center; /* Alinea los elementos de la barra de navegación al centro en pantallas pequeñas */
+    justify-content: right; /* Alinea los elementos de la barra de navegación al centro en pantallas pequeñas */
   }
 
   .navbar-nav {
-    text-align: center; /* Alinea los elementos de la lista de navegación al centro en pantallas pequeñas */
+    text-align: right; /* Alinea los elementos de la lista de navegación al centro en pantallas pequeñas */
     margin-top: 10px; /* Ajusta el margen superior de la lista de navegación */
   }
 

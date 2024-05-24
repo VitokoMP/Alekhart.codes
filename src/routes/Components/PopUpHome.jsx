@@ -21,9 +21,8 @@ function Popup() {
             <div className="popup">
               <div className="popup_inner">
                 <h2>Bienvenidos</h2>
-                <p>Dejame enviarte informacion relevante sobre estrategias de marketing en redes sociales, y mostrarte una informacion específica para trabajar el posicionamiento de tu Marca Personal, respaldado por HUBSPOT.Al cerrar la ventana recibiras el enlace de WhatsApp directamente.</p>
+                <p>Dejame enviarte informacion relevante sobre estrategias de marketing en redes sociales, y mostrarte una informacion específica para trabajar el posicionamiento de tu Marca Personal, respaldado por Hubspot. Al cerrar la ventana recibiré tu mensaje de whatsapp, para enviarte la info.</p>
       
-
         {/* Botón para cerrar el formulario emergente */}
                 <a target="_blank" onClick={togglePopup} className ="btn btn-primary" href="https://wa.link/wxk4ia">Enviame Whatsap</a>
 

@@ -30,10 +30,10 @@ export const HomeScreen = () => {
           <div className="container">
             <div className="row justify-content-md-center">
               <div className="col-md-4 col-sm-12 text-center mb-4 mb-md-0">
-                <h1>Diseño Web con Alekhart.Code </h1>
+                <h1>Diseño Web con Alekhart.Codes </h1>
                 <br></br>
                 <p className="ml-md-3">
-                En Alekhart.Code, nos especializamos en diseño web utilizando la tecnología React JS (JavaScript) para crear sitios modernos, interactivos y altamente funcionales.
+                En Alekhart.Codes, nos especializamos en diseño web utilizando la tecnología React JS (JavaScript) para crear sitios modernos, interactivos y altamente funcionales.
                </p>
                 <br></br>
                 <p className="ml-md-3">
@@ -45,6 +45,8 @@ export const HomeScreen = () => {
                 Entendemos la importancia de tener una presencia en línea sólida en el año 2024. Por eso, desarrollamos estrategias integrales que incluyen el uso efectivo de las redes sociales para potenciar el lanzamiento de tu sitio web. ¿Has considerado colaborar con influencers para aumentar tu visibilidad? ¡Estamos aquí para ayudarte! Contáctanos y coordinaremos estrategias que se adapten a tus necesidades y objetivos.
  
                 </p>
+
+                <p> ¿Listo para convertirte en el mago de tu propio éxito digital? </p>
               </div>
             </div>
           </div>
@@ -56,7 +58,7 @@ export const HomeScreen = () => {
             <div className="row justify-content-md-center">
               
             <div className="col-md-4 col-sm-12 text-center mb-4 mb-md-0">
-              <h1>Artistas y Artesanos Locales</h1>
+              <h1>Artistas y Artesanos</h1>
               <img
                 className="img-codes"
                 src="../imgoffset/3-1.png"
@@ -67,25 +69,25 @@ export const HomeScreen = () => {
               </p>
             </div>
             <div className="col-md-4 col-sm-12 text-center mb-4 mb-md-0">
-              <h1>Agencia de Viajes Sostenibles</h1>
+              <h1>Agencias de Viajes</h1>
               <img
                 className="img-codes"
                 src="../imgoffset/4-1.png"
                 alt="codes"
               />
               <p className="ml-md-3">
-              Demos vida a viajes que capturan esencia cultural y pasión por descubrir.
+              Demos vida a viajes que capturan la esencia cultural y pasión por descubrir.
               </p>
             </div>
             <div className="col-md-4 col-sm-12 text-center">
-              <h1>Negocio Ecológico Familiar</h1>
+              <h1>Negocio Familiar</h1>
               <img
                 className="img-codes"
                 src="../imgoffset/5-1.png"
                 alt="codes"
               />
               <p className="ml-md-3">
-                Adentrémonos juntos mostrando tu trayectoria de transformación social y compromiso ecológico.
+                Adentrémonos juntos mostrando tu trayectoria de transformación social y compromiso.
               </p>
             </div>
             <div>

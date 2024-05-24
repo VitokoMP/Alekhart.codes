@@ -14,7 +14,7 @@ export const ContactScreen = () => {
                   <img src="../img/1705946371695.jpg" alt="Imagen 2" className="img-fluid rounded-circle"></img>
               </div>
               <div className="col-md-4">
-                  <img src="../../public/img/1705946371463.jpg" alt="Imagen 3" className="img-fluid rounded-circle"></img>
+                  <img src="../img/1705946371463.jpg" alt="Imagen 3" className="img-fluid rounded-circle"></img>
               </div>
           </div>
       </div>
@@ -22,7 +22,7 @@ export const ContactScreen = () => {
     <div className="container py-5">
           <div className="row">
             <div className="col-md-8 offset-md-2 text-center">
-              <h2>¿Listo para potenciar tu negocio?</h2>
+              <h2>¡Vamos a hacer magia juntos en el mundo del marketing digital! </h2>
               <p>Contáctanos para obtener más información sobre nuestros servicios de marketing.</p>
             </div>
           </div>
