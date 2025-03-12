@@ -22,8 +22,8 @@ export const ContactScreen = () => {
     <div className="container py-5">
           <div className="row">
             <div className="col-md-8 offset-md-2 text-center">
-              <h2>¡Vamos a hacer magia juntos en el mundo del marketing digital! </h2>
-              <p>Contáctanos para obtener más información sobre nuestros servicios de marketing.</p>
+              <h2>¡Vamos arriba! </h2>
+              <p>Contáctanos para obtener más información sobre mis desarrollos web a medida.</p>
             </div>
           </div>
         </div>

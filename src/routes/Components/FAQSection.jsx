@@ -31,7 +31,7 @@ const FAQSection = () => {
   };
 
   return (
-    <div className="container my-5">
+    <div className="container my-5" id="faq-section">
       {faqs.map((faq, index) => (
         <div key={index} className="mb-3">
           <div 

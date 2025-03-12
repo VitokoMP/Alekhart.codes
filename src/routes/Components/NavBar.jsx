@@ -10,7 +10,7 @@ export const NavBar = () => {
         const offset = window.scrollY;
         if (offset > 10) {
             setScrolled(true);
-           
+
         } else {
             setScrolled(false);
         }
@@ -26,14 +26,14 @@ export const NavBar = () => {
 
     return (
         <>
-            <nav className={`navbar navbar-expand-lg navbar-dark ${scrolled ? 'bg-transparent' : 'bg-transparent' } ${scrolled ? 'scrolled' : ''}`}>
+            <nav className={`navbar navbar-expand-lg navbar-dark ${scrolled ? 'bg-transparent' : 'bg-transparent'} ${scrolled ? 'scrolled' : ''}`}>
 
                 <Link to="/" className="navbar-brand" href="#">
-                <img src="../../../img/Alekh.png" className="navbar-brand-logo"></img>                    
+                    <img src="../../../img/Alekh.png" className="navbar-brand-logo"></img>
                 </Link>
 
                 <button
-                    className="navbar-toggler"
+                    className="navbar-toggler me-3"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarNav"
@@ -46,11 +46,11 @@ export const NavBar = () => {
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <NavLink to="/" className="nav-link">
-                                Home
-                            </NavLink>
+                            <a href="#faq-section" className="nav-link">
+                                FAQs
+                            </a>
                         </li>
-            
+
                         <li className="nav-item">
                             <NavLink to="/contact" className="nav-link">
                                 Contact

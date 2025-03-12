@@ -13,16 +13,11 @@ export const AboutScreen = () => {
           <h5>Contacto</h5>
           <br></br>
           <ul className="list-unstyled text-center">
-            <li><i className="fas fa-map-marker-alt"></i> Dirección: Cucao, Chonchi, Chiloé - Chile </li>
-            <li><i className="fas fa-phone-alt"></i> Teléfono: +56 973156446</li>
-            <li><i className="fas fa-envelope"></i> Email: victor19.mp@gmail.com</li>
+              <li><i className="fas fa-envelope"></i> Email: victor19.mp@gmail.com</li>
           </ul>
-          <h5>Redes Sociales</h5>
           <br></br>
           <ul className="list-unstyled text-center">
-            <li><a href="https://web.facebook.com/Alekhart.Codes/"><i className="fab fa-facebook-f"></i> Facebook</a></li>
-            <li><a href="@VictorMolia46904"><i className="fab fa-twitter"></i> Twitter</a></li>
-            <li><a href="https://www.instagram.com/alekhart.codes/"><i className="fab fa-instagram"></i> Instagram</a></li>
+             <li><a href="https://www.instagram.com/alekhart.codes/"><i className="fab fa-instagram"></i> Instagram</a></li>
           </ul>
         </div>
 
@@ -36,7 +31,7 @@ export const AboutScreen = () => {
       </div>
     </div>
     <div className="text-center py-3 bg-secondary">
-      <p>&copy; 2024 Alekhart.Codes | Todos los derechos reservados.</p>
+      <p>&copy; 2025 Alekhart.Codes | Todos los derechos reservados.</p>
     </div>
   </footer>
   
