@@ -28,7 +28,7 @@ export const NavBar = () => {
         <>
             <nav className={`navbar navbar-expand-lg navbar-dark ${scrolled ? 'bg-transparent' : 'bg-transparent'} ${scrolled ? 'scrolled' : ''}`}>
 
-                <Link to="/" className="navbar-brand" href="#">
+                <Link to="/" className="navbar-brand" href="#"  onClick={() => window.scrollTo(0, 0)}>
                     <img src="../../../img/Alekh.png" className="navbar-brand-logo"></img>
                 </Link>
 
@@ -45,13 +45,13 @@ export const NavBar = () => {
                 </button>
                 <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
                     <ul className="navbar-nav ml-auto">
-                        <li className="nav-item">
+                        <li className="nav-item me-3">
                             <a href="#faq-section" className="nav-link">
                                 FAQs
                             </a>
                         </li>
 
-                        <li className="nav-item">
+                        <li className="nav-item me-3">
                             <NavLink to="/contact" className="nav-link">
                                 Contact
                             </NavLink>
