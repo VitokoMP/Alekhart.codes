@@ -1,33 +1,445 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import styles from '../ContactScreen.module.css';
+import { ArtisanImage } from '../component/contactCard/ArtisanImage/ArtisanImage.jsx';
+import { ContactCard } from '../component/contactCard/ContactCard.jsx';
+import { artisanImages } from '../img/index.jsx';
+
+// Variantes de animación para contenedores
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.3
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: [0.43, 0.13, 0.23, 0.96]
+    }
+  }
+};
+
+const stampVariants = {
+  hidden: { scale: 0, rotate: -180 },
+  visible: {
+    scale: 1,
+    rotate: -8,
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 20
+    }
+  }
+};
+
+const titleVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      delay: 0.4,
+      ease: [0.43, 0.13, 0.23, 0.96]
+    }
+  }
+};
+
+const arrowVariants = {
+  animate: {
+    y: [0, -8, 0],
+    rotate: [0, 5, 0],
+    transition: {
+      duration: 3,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
 
 export const ContactScreen = () => {
+  // Estado del formulario
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    mensaje: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  // Manejador de cambios
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Manejador de envío
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // Simular envío (reemplazar con tu API)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      console.log('Formulario enviado:', formData);
+      setSubmitStatus('success');
+      setFormData({ nombre: '', email: '', mensaje: '' });
+    } catch (error) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+      setTimeout(() => setSubmitStatus(null), 4000);
+    }
+  };
+
+  // Datos de contacto
+  const contactMethods = [
+    {
+      icon: '✉️',
+      title: 'Correspondencia',
+      link: 'mailto:victor19.mp@gmail.com',
+      note: 'respuesta personal'
+    },
+    {
+      icon: '📱',
+      title: 'WhatsApp',
+      link: 'https://wa.me/56973156446',
+      note: 'respuesta rápida'
+    }
+  ];
+
+  // Sellos de confianza
+  const trustSeals = [
+    { icon: '⏳', text: 'sin prisas' },
+    { icon: '🤝', text: 'trato directo' },
+    { icon: '🔨', text: 'hecho a mano' }
+  ];
+
   return (
-    <div>
-      
-      <section className= "background-image-container-contact">
-    <section className="round-images-section">
-      <div className="container">
-          <div className="row">
-              <div className="col-md-4">
-                  <img src="../img/1705946371730.jpg" alt="Imagen 1" className="img-fluid rounded-circle"></img>
-              </div>
-              <div className="col-md-4">
-                  <img src="../img/1705946371695.jpg" alt="Imagen 2" className="img-fluid rounded-circle"></img>
-              </div>
-              <div className="col-md-4">
-                  <img src="../img/1705946371463.jpg" alt="Imagen 3" className="img-fluid rounded-circle"></img>
-              </div>
-          </div>
+    <motion.div 
+      className={styles.container}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+    >
+      <div className={styles.content}>
+        
+        {/* SECCIÓN DE IMÁGENES ARTESANALES */}
+        <motion.div 
+          className={styles.imageGrid}
+          variants={itemVariants}
+        >
+          <ArtisanImage 
+            src={artisanImages.artist} 
+            alt="Artista artesano digital" 
+            badge="🎨"
+            delay={0.1}
+          />
+          <ArtisanImage 
+            src={artisanImages.process} 
+            alt="Proceso artesanal" 
+            badge="🛠️"
+            delay={0.3}
+          />
+          <ArtisanImage 
+            src={artisanImages.work} 
+            alt="Obra personalizada" 
+            badge="✨"
+            delay={0.5}
+          />
+        </motion.div>
+
+        {/* FIRMA MANUSCRITA */}
+        <motion.div 
+          className={styles.signature}
+          variants={itemVariants}
+        >
+          hecho a mano · con propósito
+        </motion.div>
+
+        {/* SELLO ARTESANAL */}
+        <motion.div 
+          className={styles.stamp}
+          variants={stampVariants}
+        >
+          <span className={styles.stampText}>trabajo en curso</span>
+        </motion.div>
+
+        {/* TÍTULO PRINCIPAL */}
+        <motion.h1 
+          className={styles.title}
+          variants={titleVariants}
+        >
+          ¡Vamos arriba!
+          <motion.span 
+            className={styles.arrow}
+            variants={arrowVariants}
+            animate="animate"
+          >
+            ↗
+          </motion.span>
+        </motion.h1>
+
+        <motion.p 
+          className={styles.subtitle}
+          variants={itemVariants}
+        >
+          Cada línea de código es como una pincelada.
+          <br />
+          <span className={styles.highlight}>
+            Hagamos algo bello juntos.
+          </span>
+        </motion.p>
+
+        {/* TARJETA PRINCIPAL - FORMULARIO */}
+        <motion.div 
+          className={styles.card}
+          variants={itemVariants}
+          whileHover={{
+            boxShadow: "0 15px 40px rgba(184,138,75,0.1), 0 0 0 1px #b88a4b, 0 0 0 4px white, 0 0 0 5px #b88a4b",
+            transition: { duration: 0.3 }
+          }}
+        >
+          
+          {/* SELLO PERSONAL */}
+          <motion.div 
+            className={styles.seal}
+            whileHover={{ 
+              rotate: 15,
+              scale: 1.1,
+              borderColor: "#b88a4b",
+              transition: { duration: 0.3 }
+            }}
+          >
+            <span className={styles.sealInner}>A•A</span>
+          </motion.div>
+          
+          <motion.p 
+            className={styles.greeting}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8 }}
+          >
+            Hola, soy Dorje ·
+            <span className={styles.role}> artesano digital</span>
+          </motion.p>
+
+          {/* CARTA PERSONAL */}
+          <motion.div 
+            className={styles.letter}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.9, duration: 0.6 }}
+          >
+            <p>
+              <span className={styles.dropCap}>C</span>
+              uéntame qué necesitas. Así como un artesano conoce la madera,
+              yo conozco el código. Trabajo sin prisas, con atención al detalle,
+              entregando piezas únicas que resuelven problemas reales.
+            </p>
+          </motion.div>
+
+          {/* FORMULARIO */}
+          <form onSubmit={handleSubmit} className={styles.form}>
+            <motion.div 
+              className={styles.formGroup}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0 }}
+            >
+              <label htmlFor="nombre" className={styles.label}>
+                ¿Cómo te llamas?
+              </label>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                className={styles.input}
+                placeholder="ej: María González"
+                required
+                disabled={isSubmitting}
+              />
+            </motion.div>
+
+            <motion.div 
+              className={styles.formGroup}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.1 }}
+            >
+              <label htmlFor="email" className={styles.label}>
+                ¿Tu correo?
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={styles.input}
+                placeholder="ej: maria@taller.cl"
+                required
+                disabled={isSubmitting}
+              />
+            </motion.div>
+
+            <motion.div 
+              className={styles.formGroup}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.2 }}
+            >
+              <label htmlFor="mensaje" className={styles.label}>
+                ¿Qué sueñas construir?
+              </label>
+              <textarea
+                id="mensaje"
+                name="mensaje"
+                value={formData.mensaje}
+                onChange={handleChange}
+                className={styles.textarea}
+                placeholder="Escribe aquí tu idea... sin filtros, sin tecnicismos. Solo cuéntame qué necesitas."
+                rows="5"
+                required
+                disabled={isSubmitting}
+              />
+            </motion.div>
+
+            <motion.div 
+              style={{ textAlign: 'center' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.3 }}
+            >
+              <motion.button 
+                type="submit" 
+                className={styles.button}
+                disabled={isSubmitting}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>
+                  {isSubmitting ? 'Enviando...' : 'Enviar esta carta'}
+                </span>
+                <motion.span 
+                  className={styles.buttonIcon}
+                  animate={isSubmitting ? { 
+                    rotate: 360,
+                    transition: { duration: 2, repeat: Infinity, ease: "linear" }
+                  } : {}}
+                >
+                  {isSubmitting ? '⏳' : '✎'}
+                </motion.span>
+              </motion.button>
+              
+              {submitStatus === 'success' && (
+                <motion.p 
+                  className={styles.successMessage}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  ✨ ¡Mensaje enviado! Te responderé pronto.
+                </motion.p>
+              )}
+              
+              {submitStatus === 'error' && (
+                <motion.p 
+                  className={styles.errorMessage}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                >
+                  ❌ Hubo un error. ¿Puedes intentar de nuevo?
+                </motion.p>
+              )}
+              
+              <p className={styles.note}>
+                * Respondo personalmente en menos de 24 horas.
+                <br />
+                Sin automatizaciones, sin chatbots.
+              </p>
+            </motion.div>
+          </form>
+
+          {/* SELLOS DE CONFIANZA */}
+          <motion.div 
+            className={styles.seals}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.4 }}
+          >
+            {trustSeals.map((seal, index) => (
+              <motion.div 
+                key={index} 
+                className={styles.sealItem}
+                whileHover={{ 
+                  y: -5,
+                  transition: { duration: 0.2 }
+                }}
+              >
+                <span className={styles.sealIcon}>{seal.icon}</span>
+                <span className={styles.sealText}>{seal.text}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* TARJETAS DE CONTACTO */}
+        <motion.div 
+          className={styles.contactGrid}
+          variants={itemVariants}
+        >
+          {contactMethods.map((method, index) => (
+            <ContactCard 
+              key={index} 
+              {...method} 
+              delay={1.5 + (index * 0.1)}
+            />
+          ))}
+        </motion.div>
+
+        {/* FIRMA FINAL */}
+        <motion.div 
+          className={styles.quote}
+          variants={itemVariants}
+        >
+          “El buen código, como la buena madera,
+          <br />se reconoce por su calidez y durabilidad”
+        </motion.div>
+        
+        <motion.div 
+          className={styles.signatureContainer}
+          variants={itemVariants}
+        >
+          <motion.span 
+            className={styles.signatureName}
+            whileHover={{ scale: 1.05, color: "#b88a4b" }}
+            transition={{ duration: 0.3 }}
+          >
+            Alekh Art
+          </motion.span>
+          <span className={styles.signatureTitle}>
+            artesano digital
+          </span>
+        </motion.div>
       </div>
-    </section>
-    <div className="container py-5">
-          <div className="row">
-            <div className="col-md-8 offset-md-2 text-center">
-              <h2>¡Vamos arriba! </h2>
-              <p>Contáctanos para obtener más información sobre mis desarrollos web a medida.</p>
-            </div>
-          </div>
-        </div>
-</section>
-    </div>
-  )
-}
+    </motion.div>
+  );
+};
