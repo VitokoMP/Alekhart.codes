@@ -28,7 +28,14 @@ export const HomeScreen = () => {
                 Ya facturas. Tienes equipo. <span className="text-primary">Pero los plugins ya no te alcanzan.</span>
               </h1>
               
-              <p className="lead text-muted mt-4 mb-4" style={{ fontSize: '1.3rem', maxWidth: '800px', margin: '0 auto' }}>
+              <p  className="lead mt-4 mb-4"
+  style={{
+    color: '#c9bebe',
+    fontSize: '1.3rem',
+    maxWidth: '800px',
+    margin: '0 auto',
+    fontWeight: '500'
+  }}>
                 Desarrollé Ticket Flow y Vibra Digital. No instalo plugins. 
                 Construyo <strong>sistemas a medida dentro de WordPress</strong> para que tu agencia 
                 cierre proyectos que otros no pueden.
