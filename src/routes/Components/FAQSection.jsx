@@ -4,27 +4,28 @@ const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
-    {
-      question: "¿Por qué debería invertir en la optimización de mi sitio web?",
-      answer: "Invertir en la optimización de tu sitio web es crucial para mejorar la experiencia del usuario, aumentar la velocidad de carga, mejorar el posicionamiento en motores de búsqueda (SEO) y, en última instancia, aumentar las conversiones y ventas. Un sitio web optimizado es más atractivo para los visitantes y puede ayudar a retener a los clientes actuales mientras atrae a nuevos."
-    },
-    {
-      question: "¿Qué es una estrategia de marketing inbound y cómo puede beneficiar a mi negocio?",
-      answer: "El marketing inbound se centra en atraer clientes a través de contenido relevante y útil, agregando valor en cada etapa del viaje del comprador. A diferencia del marketing tradicional, no interrumpe a los clientes, sino que los atrae de manera natural. Esto puede resultar en una mayor lealtad del cliente, mejores tasas de conversión y un crecimiento sostenible del negocio."
-    },
-    {
-      question: "¿Cuánto tiempo se tarda en ver resultados después de implementar una nueva estrategia de marketing?",
-      answer: "El tiempo para ver resultados puede variar dependiendo de varios factores, como la competitividad de la industria, la calidad de la estrategia implementada y el estado actual de tu sitio web y presencia en línea. Generalmente, puedes esperar ver mejoras iniciales en el tráfico y la interacción dentro de los primeros 3 a 6 meses, con resultados más significativos a largo plazo (6-12 meses)."
-    },
-    {
-      question: "¿Qué incluye una auditoría de sitio web y cómo me ayudará?",
-      answer: "Una auditoría de sitio web incluye una revisión detallada de varios aspectos de tu sitio, como la velocidad de carga, la estructura del contenido, la optimización para motores de búsqueda (SEO), la usabilidad y la seguridad. Esta auditoría te ayudará a identificar áreas de mejora y a desarrollar un plan de acción para optimizar tu sitio, mejorando su rendimiento y la satisfacción del usuario."
-    },
-    {
-      question: "¿Cómo puedo asegurarme de que mi sitio web sea móvil amigable?",
-      answer: "Un sitio web móvil amigable es esencial dado el creciente número de usuarios que navegan desde dispositivos móviles. Asegurarte de que tu sitio sea responsive, lo que significa que se ajusta automáticamente a cualquier tamaño de pantalla, es fundamental. Además, optimizar la velocidad de carga, simplificar la navegación y utilizar botones y enlaces que sean fáciles de interactuar en pantallas táctiles son pasos clave para lograrlo."
-    }
-  ];
+  {
+    question: "¿Esto reemplaza contratar un desarrollador interno?",
+    answer: "No necesariamente. Muchas agencias trabajan conmigo antes de contratar equipo técnico interno. Me integro como partner estratégico cuando necesitan resolver sistemas complejos sin asumir el costo fijo de un equipo full-time."
+  },
+  {
+    question: "¿Cómo funciona la colaboración con mi equipo?",
+    answer: "Trabajo directamente con tu dirección o equipo de proyectos. Definimos alcance técnico, arquitectura y entregables. Tu agencia mantiene la relación con el cliente final. Yo opero como infraestructura técnica detrás."
+  },
+  {
+    question: "¿Quién es dueño del código y los desarrollos?",
+    answer: "Tu agencia. Siempre. Mi rol es construir la infraestructura, no retener propiedad. El código queda bajo tu control y puede escalarse internamente si decides formar equipo técnico propio."
+  },
+  {
+    question: "¿Qué tipo de proyectos desarrollas?",
+    answer: "Sistemas internos, automatizaciones complejas, dashboards, cotizadores avanzados, integraciones personalizadas y productos comerciales dentro de WordPress que no existen como plugin."
+  },
+  {
+    question: "¿Cómo sé si mi agencia califica?",
+    answer: "Si ya vendes proyectos de alto valor, tienes clientes con necesidades complejas y sientes que el límite técnico está frenando tu crecimiento, probablemente encajamos."
+  }
+];
+
 
   const toggleAnswer = (index) => {
     setOpenIndex(openIndex === index ? null : index);

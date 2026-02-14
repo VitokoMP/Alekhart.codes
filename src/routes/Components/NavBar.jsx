@@ -26,39 +26,40 @@ export const NavBar = () => {
 
     return (
         <>
-            <nav className={`navbar navbar-expand-lg navbar-dark ${scrolled ? 'bg-transparent' : 'bg-transparent'} ${scrolled ? 'scrolled' : ''}`}>
+            <nav style={{ color: '#ffffff', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }} className={`navbar navbar-expand-lg navbar-dark ${scrolled ? 'bg-transparent' : 'bg-transparent'} ${scrolled ? 'scrolled' : ''}`}>
 
-                <Link to="/" className="navbar-brand" href="#"  onClick={() => window.scrollTo(0, 0)}>
-                    <img src="../../../img/Alekh.png" className="navbar-brand-logo"></img>
-                </Link>
+  <Link to="/" className="navbar-brand" href="#" onClick={() => window.scrollTo(0, 0)}>
+    <img src="../../../img/Alekh.png" className="navbar-brand-logo" alt="logo"></img>
+  </Link>
 
-                <button
-                    className="navbar-toggler me-3"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-                    <ul className="navbar-nav ml-auto">
-                        <li className="nav-item me-3">
-                            <a href="#faq-section" className="nav-link">
-                                FAQs
-                            </a>
-                        </li>
+  <button
+    className="navbar-toggler me-3"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span className="navbar-toggler-icon"></span>
+  </button>
+  
+  <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul className="navbar-nav ml-auto">
+      <li className="nav-item me-3">
+        <a href="#faq-section" className="nav-link" style={{ color: '#ffffff' }}>
+          FAQs
+        </a>
+      </li>
 
-                        <li className="nav-item me-3">
-                            <NavLink to="/contact" className="nav-link">
-                                Contact
-                            </NavLink>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+      <li className="nav-item me-3">
+        <NavLink to="/contact" className="nav-link" style={{ color: '#ffffff' }}>
+          Contact
+        </NavLink>
+      </li>
+    </ul>
+  </div>
+</nav>
         </>
     );
 };

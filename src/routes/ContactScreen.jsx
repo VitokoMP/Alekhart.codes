@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
+// ... tus otros imports  
 import styles from '../ContactScreen.module.css';
 import { ArtisanImage } from '../component/contactCard/ArtisanImage/ArtisanImage.jsx';
 import { ContactCard } from '../component/contactCard/ContactCard.jsx';
@@ -69,6 +71,7 @@ const arrowVariants = {
 
 export const ContactScreen = () => {
   // Estado del formulario
+  
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -93,12 +96,26 @@ export const ContactScreen = () => {
     setIsSubmitting(true);
     
     try {
-      // Simular envío (reemplazar con tu API)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Formulario enviado:', formData);
+      // Obtener credenciales de variables de entorno
+      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+
+      // Inicializar EmailJS
+      emailjs.init(publicKey);
+
+      // Enviar email
+      await emailjs.sendForm(
+        serviceId, 
+        templateId, 
+        formRef.current,  // Referencia al formulario
+        publicKey
+      );
+
       setSubmitStatus('success');
       setFormData({ nombre: '', email: '', mensaje: '' });
     } catch (error) {
+      console.error('Error:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -225,7 +242,7 @@ export const ContactScreen = () => {
               transition: { duration: 0.3 }
             }}
           >
-            <span className={styles.sealInner}>A•A</span>
+            <span className={styles.sealInner}>A•C</span>
           </motion.div>
           
           <motion.p 
@@ -261,13 +278,13 @@ export const ContactScreen = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0 }}
             >
-              <label htmlFor="nombre" className={styles.label}>
+              <label htmlFor="name" className={styles.label}>
                 ¿Cómo te llamas?
               </label>
               <input
                 type="text"
-                id="nombre"
-                name="nombre"
+                id="name"
+                name="name"
                 value={formData.nombre}
                 onChange={handleChange}
                 className={styles.input}
@@ -305,12 +322,12 @@ export const ContactScreen = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2 }}
             >
-              <label htmlFor="mensaje" className={styles.label}>
+              <label htmlFor="message" className={styles.label}>
                 ¿Qué sueñas construir?
               </label>
               <textarea
-                id="mensaje"
-                name="mensaje"
+                id="message"
+                name="message"
                 value={formData.mensaje}
                 onChange={handleChange}
                 className={styles.textarea}

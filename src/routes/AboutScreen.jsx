@@ -31,7 +31,7 @@ export const AboutScreen = () => {
       </div>
     </div>
     <div className="text-center py-3 bg-secondary">
-      <p>&copy; 2025 Alekhart.Codes | Todos los derechos reservados.</p>
+      <p>&copy; 2026 Alekhart.Codes | Todos los derechos reservados.</p>
     </div>
   </footer>
   
