@@ -390,120 +390,120 @@ export const HomeScreen = () => {
                 {/* FORMULARIO FILTRADO - NETLIFY CON HONEYPOT */}
                 <div className="card border-0 shadow-lg p-4" style={{ background: '#ffffff', borderRadius: '16px' }}>
                   <div className="card-body">
-                    <form
-  name="agencias-intervencion"
-  method="POST"
-  data-netlify="true"
-  data-netlify-honeypot="bot-field"
-  onSubmit={async (e) => {
-    e.preventDefault();
+                                      <form
+                    name="agencias-intervencion"
+                    method="POST"
+                    data-netlify="true"
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={async (e) => {
+                      e.preventDefault();
 
-    const form = e.target;
-    const formData = new FormData(form);
+                      const form = e.target;
+                      const formData = new FormData(form);
 
-    try {
-      await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData).toString(),
-      });
+                      try {
+                        await fetch("/", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                          body: new URLSearchParams(formData).toString(),
+                        });
 
-      setFormEnviado(true);
-      form.reset();
-      setTimeout(() => setFormEnviado(false), 5000);
-    } catch (error) {
-      alert("Error al enviar. Intenta de nuevo.");
-    }
-  }}
->
-  {/* Honeypot anti-spam */}
-  <input type="hidden" name="bot-field" />
-  
-  {/* Campo obligatorio para Netlify */}
-  <input type="hidden" name="form-name" value="agencias-intervencion" />
-  
-  <div className="row">
-    <div className="col-md-6 mb-3">
-      <label className="form-label fw-bold text-dark">Nombre</label>
-      <input 
-        type="text" 
-        name="nombre"
-        className="form-control form-control-lg" 
-        placeholder="¿Quién eres?" 
-        required
-      />
-    </div>
-    <div className="col-md-6 mb-3">
-      <label className="form-label fw-bold text-dark">Empresa</label>
-      <input 
-        type="text" 
-        name="agencia"
-        className="form-control form-control-lg" 
-        placeholder="Nombre de tu agencia" 
-        required
-      />
-    </div>
-  </div>
-  
-  <div className="mb-3">
-    <label className="form-label fw-bold text-dark">Email</label>
-    <input 
-      type="email" 
-      name="email"
-      className="form-control form-control-lg" 
-      placeholder="dónde recibo tu respuesta" 
-      required
-    />
-  </div>
-  
-  <div className="mb-4">
-    <label className="form-label fw-bold text-dark">
-      Describe brevemente el módulo o sistema que está generando fricción
-    </label>
-    <textarea 
-      name="friccion"
-      className="form-control form-control-lg" 
-      rows="4"
-      placeholder="Ej: sistema de cotizaciones manuales que tarda 2h por cliente, o un dashboard que no escala..."
-      required
-    ></textarea>
-    <div className="form-text text-muted mt-2">
-      Esto me ayuda a saber si puedo ayudarte antes de la primera llamada.
-    </div>
-  </div>
-  
-  <div className="mb-4">
-    <label className="form-label fw-bold text-dark">¿Tienes identificada la deuda técnica?</label>
-    <select 
-      name="deuda_tecnica"
-      className="form-select form-select-lg" 
-      required
-    >
-      <option value="">Selecciona una opción</option>
-      <option value="documentada">Sí, la tengo documentada</option>
-      <option value="identificada">La tengo identificada pero no documentada</option>
-      <option value="no_analizada">Aún no la hemos analizado en profundidad</option>
-    </select>
-  </div>
-  
-  <button 
-    type="submit" 
-    className="btn btn-primary btn-lg w-100 py-3 fw-bold" 
-    style={{ fontSize: '1.2rem' }}
-  >
-    Ver si encajamos →
-  </button>
+                        setFormEnviado(true);
+                        form.reset();
+                        setTimeout(() => setFormEnviado(false), 5000);
+                      } catch (error) {
+                        alert("Error al enviar. Intenta de nuevo.");
+                      }
+                    }}
+                  >
+                    {/* Honeypot anti-spam */}
+                    <input type="hidden" name="bot-field" />
+                    
+                    {/* Campo obligatorio para Netlify */}
+                    <input type="hidden" name="form-name" value="agencias-intervencion" />
+                    
+                    <div className="row">
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label fw-bold text-dark">Nombre</label>
+                        <input 
+                          type="text" 
+                          name="nombre"
+                          className="form-control form-control-lg" 
+                          placeholder="¿Quién eres?" 
+                          required
+                        />
+                      </div>
+                      <div className="col-md-6 mb-3">
+                        <label className="form-label fw-bold text-dark">Empresa</label>
+                        <input 
+                          type="text" 
+                          name="agencia"
+                          className="form-control form-control-lg" 
+                          placeholder="Nombre de tu agencia" 
+                          required
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="mb-3">
+                      <label className="form-label fw-bold text-dark">Email</label>
+                      <input 
+                        type="email" 
+                        name="email"
+                        className="form-control form-control-lg" 
+                        placeholder="dónde recibo tu respuesta" 
+                        required
+                      />
+                    </div>
+                    
+                    <div className="mb-4">
+                      <label className="form-label fw-bold text-dark">
+                        Describe brevemente el módulo o sistema que está generando fricción
+                      </label>
+                      <textarea 
+                        name="friccion"
+                        className="form-control form-control-lg" 
+                        rows="4"
+                        placeholder="Ej: sistema de cotizaciones manuales que tarda 2h por cliente, o un dashboard que no escala..."
+                        required
+                      ></textarea>
+                      <div className="form-text text-muted mt-2">
+                        Esto me ayuda a saber si puedo ayudarte antes de la primera llamada.
+                      </div>
+                    </div>
+                    
+                    <div className="mb-4">
+                      <label className="form-label fw-bold text-dark">¿Tienes identificada la deuda técnica?</label>
+                      <select 
+                        name="deuda_tecnica"
+                        className="form-select form-select-lg" 
+                        required
+                      >
+                        <option value="">Selecciona una opción</option>
+                        <option value="documentada">Sí, la tengo documentada</option>
+                        <option value="identificada">La tengo identificada pero no documentada</option>
+                        <option value="no_analizada">Aún no la hemos analizado en profundidad</option>
+                      </select>
+                    </div>
+                    
+                    <button 
+                      type="submit" 
+                      className="btn btn-primary btn-lg w-100 py-3 fw-bold" 
+                      style={{ fontSize: '1.2rem' }}
+                    >
+                      Ver si encajamos →
+                    </button>
 
-  {formEnviado && (
-    <div className="alert alert-success mt-4 text-center" role="alert">
-      ✅ ¡Recibido! Te responderé en menos de 24h si cumples los criterios.
-    </div>
-  )}
-  
-  <p className="text-center text-muted small mt-4 mb-0">
-    {usuario?.nombre ? `Hola ${usuario.nombre}, ` : ''}Respuesta en menos de 24h • Solo si cumples criterios
-  </p>
-</form>
+                    {formEnviado && (
+                      <div className="alert alert-success mt-4 text-center" role="alert">
+                        ✅ ¡Recibido! Te responderé en menos de 24h si cumples los criterios.
+                      </div>
+                    )}
+                    
+                    <p className="text-center text-muted small mt-4 mb-0">
+                      {usuario?.nombre ? `Hola ${usuario.nombre}, ` : ''}Respuesta en menos de 24h • Solo si cumples criterios
+                    </p>
+                  </form>
                   </div>
                 </div>
               </div>
