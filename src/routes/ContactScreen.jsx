@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
-// ... tus otros imports  
 import styles from '../ContactScreen.module.css';
 import { ArtisanImage } from '../component/contactCard/ArtisanImage/ArtisanImage.jsx';
 import { ContactCard } from '../component/contactCard/ContactCard.jsx';
@@ -70,12 +69,14 @@ const arrowVariants = {
 };
 
 export const ContactScreen = () => {
-  // Estado del formulario
+  // Referencia al formulario (CRÍTICO para EmailJS)
+  const formRef = useRef(null);
   
+  // Estado del formulario - AHORA COINCIDE CON LOS name DE LOS INPUTS
   const [formData, setFormData] = useState({
-    nombre: '',
+    name: '',     // antes era 'nombre'
     email: '',
-    mensaje: ''
+    message: ''   // antes era 'mensaje'
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,19 +102,16 @@ export const ContactScreen = () => {
       const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
       const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
-      // Inicializar EmailJS
-      emailjs.init(publicKey);
-
-      // Enviar email
+      // Enviar email USANDO LA REFERENCIA AL FORMULARIO
       await emailjs.sendForm(
         serviceId, 
         templateId, 
-        formRef.current,  // Referencia al formulario
+        formRef.current,
         publicKey
       );
 
       setSubmitStatus('success');
-      setFormData({ nombre: '', email: '', mensaje: '' });
+      setFormData({ name: '', email: '', message: '' }); // LIMPIEZA CORREGIDA
     } catch (error) {
       console.error('Error:', error);
       setSubmitStatus('error');
@@ -270,8 +268,12 @@ export const ContactScreen = () => {
             </p>
           </motion.div>
 
-          {/* FORMULARIO */}
-          <form onSubmit={handleSubmit} className={styles.form}>
+          {/* FORMULARIO - AHORA CON REF Y NAMES CORRECTOS */}
+          <form ref={formRef} onSubmit={handleSubmit} className={styles.form}>
+            
+            {/* Campo oculto para Netlify (opcional pero recomendado) */}
+            <input type="hidden" name="form-name" value="contacto-artesanal" />
+            
             <motion.div 
               className={styles.formGroup}
               initial={{ opacity: 0, y: 20 }}
@@ -285,7 +287,7 @@ export const ContactScreen = () => {
                 type="text"
                 id="name"
                 name="name"
-                value={formData.nombre}
+                value={formData.name}  // CORREGIDO
                 onChange={handleChange}
                 className={styles.input}
                 placeholder="ej: María González"
@@ -307,7 +309,7 @@ export const ContactScreen = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
+                value={formData.email}  // CORREGIDO
                 onChange={handleChange}
                 className={styles.input}
                 placeholder="ej: maria@taller.cl"
@@ -328,7 +330,7 @@ export const ContactScreen = () => {
               <textarea
                 id="message"
                 name="message"
-                value={formData.mensaje}
+                value={formData.message}  // CORREGIDO
                 onChange={handleChange}
                 className={styles.textarea}
                 placeholder="Escribe aquí tu idea... sin filtros, sin tecnicismos. Solo cuéntame qué necesitas."
