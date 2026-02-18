@@ -95,7 +95,8 @@ export const ContactScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+    console.log('Public Key:', process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
+
     try {
       // Obtener credenciales de variables de entorno
       const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
