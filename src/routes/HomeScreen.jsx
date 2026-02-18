@@ -393,8 +393,7 @@ export const HomeScreen = () => {
                       name="agencias-intervencion"
                       method="POST"
                       data-netlify="true"
-                      data-netlify-honeypot="bot-field"
-                      action="/Gracias"
+                      data-netlify-honeypot="bot-field" 
                     >
                       {/* Honeypot anti-spam */}
                       <input type="hidden" name="bot-field" />
