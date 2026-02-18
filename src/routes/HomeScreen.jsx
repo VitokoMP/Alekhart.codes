@@ -6,7 +6,8 @@ import ReactProjectsSlider from "./Components/ReactPRojectSlider";
 
 export const HomeScreen = () => {
   const { usuario } = useContext(UsuarioContext);
-
+  const [formEnviado, setFormEnviado] = useState(false);
+  
   return (
     <div>
       {/* HERO - Arquitectura técnica para agencias */}
