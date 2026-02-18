@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UsuarioContext } from "../context/UsuarioContext";
 import FAQSection from "./Components/FAQSection";
 import { AboutScreen } from "./AboutScreen";
@@ -7,7 +7,7 @@ import ReactProjectsSlider from "./Components/ReactPRojectSlider";
 export const HomeScreen = () => {
   const { usuario } = useContext(UsuarioContext);
   const [formEnviado, setFormEnviado] = useState(false);
-  
+
   return (
     <div>
       {/* HERO - Arquitectura técnica para agencias */}
