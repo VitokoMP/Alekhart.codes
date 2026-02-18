@@ -13,7 +13,7 @@ export const AlekhartApp = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/gracias" element={<Gracias />} />
+        <Route path="/Gracias" element={<Gracias />} />
         <Route path="/login" element={<LoginScreen />} />
         <Route path="/about" element={<AboutScreen />} />
         <Route path="/contact" element={<ContactScreen />} /> 
