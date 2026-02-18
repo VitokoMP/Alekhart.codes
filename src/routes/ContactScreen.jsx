@@ -95,13 +95,13 @@ export const ContactScreen = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log('Public Key:', process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
+    console.log('Public Key:', import.meta.env.REACT_APP_EMAILJS_PUBLIC_KEY);
 
     try {
       // Obtener credenciales de variables de entorno
-      const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID;
-      const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
-      const publicKey = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+      const serviceId = import.meta.env.REACT_APP_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.REACT_APP_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.REACT_APP_EMAILJS_PUBLIC_KEY;
 
       // Enviar email USANDO LA REFERENCIA AL FORMULARIO
       await emailjs.sendForm(
