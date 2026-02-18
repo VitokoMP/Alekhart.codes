@@ -42,12 +42,12 @@ export const HomeScreen = () => {
                 que frenan el crecimiento.
               </p>
               
-              {/* Badges de autoridad */}
-              <div className="d-flex justify-content-center gap-3 mb-5">
-                <span className="badge bg-dark text-white px-4 py-2">+11 años</span>
-                <span className="badge bg-dark text-white px-4 py-2">Sistemas en producción</span>
-                <span className="badge bg-dark text-white px-4 py-2">3 agencias máximo</span>
-              </div>
+              {/* Badges de autoridad - Con wrap responsivo */}
+            <div className="d-flex justify-content-center flex-wrap gap-3 mb-5">
+              <span className="badge bg-dark text-white px-4 py-2">+11 años</span>
+              <span className="badge bg-dark text-white px-4 py-2">Sistemas en producción</span>
+              <span className="badge bg-dark text-white px-4 py-2">3 agencias máximo</span>
+            </div>
 
               <a
                 href="#contacto"
