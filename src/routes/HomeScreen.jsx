@@ -7,6 +7,16 @@ import ReactProjectsSlider from "./Components/ReactPRojectSlider";
 export const HomeScreen = () => {
   const { usuario } = useContext(UsuarioContext);
   const [formEnviado, setFormEnviado] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  
+
+
+
+
+
+
+
+
 
   return (
     <div>
@@ -66,7 +76,85 @@ export const HomeScreen = () => {
       </section>
 
       <div className="background-image-container">
-        
+        {/* NUEVA SECCIÓN - PRODUCTO WHATSAPP SALES OS */}
+        <section className="py-5" style={{ background: '#0a0a0a' }}>
+          <div className="container">
+            <div className="row justify-content-center text-center mb-5">
+              <div className="col-lg-8">
+                <span className="badge bg-primary px-3 py-2 mb-3">
+                  PRODUCTO DESTACADO
+                </span>
+
+                <h2 className="display-5 font-weight-bold text-white">
+                  Convierte tu WhatsApp en un 
+                  <span className="text-primary"> sistema automático de ventas</span>
+                </h2>
+
+                <p className="lead mt-4" style={{ color: '#cccccc' }}>
+                  Si tu negocio depende de responder mensajes manualmente, estás perdiendo ventas.
+                  Automatizamos respuestas, pedidos y seguimiento con IA para que tu negocio venda incluso cuando no estás.
+                </p>
+              </div>
+            </div>
+
+            {/* FEATURES TIPO TEACHMATE */}
+            <div className="row g-4 justify-content-center mb-5">
+
+              <div className="col-md-6 col-lg-4">
+                <div className="card h-100 border-0 p-4 text-center" style={{ background: '#151515' }}>
+                  <div className="display-4 mb-3">🤖</div>
+                  <h4 className="text-white">Responde clientes automáticamente</h4>
+                  <p style={{ color: '#bbbbbb' }}>
+                    Atención inmediata 24/7 sin depender de ti.
+                  </p>
+                </div>
+              </div>
+
+              <div className="col-md-6 col-lg-4">
+                <div className="card h-100 border-0 p-4 text-center" style={{ background: '#151515' }}>
+                  <div className="display-4 mb-3">🛒</div>
+                  <h4 className="text-white">Vende directo desde WhatsApp</h4>
+                  <p style={{ color: '#bbbbbb' }}>
+                    Muestra productos, genera pedidos y envía links de pago automáticamente.
+                  </p>
+                </div>
+              </div>
+
+              <div className="col-md-6 col-lg-4">
+                <div className="card h-100 border-0 p-4 text-center" style={{ background: '#151515' }}>
+                  <div className="display-4 mb-3">📊</div>
+                  <h4 className="text-white">Controla tu negocio en tiempo real</h4>
+                  <p style={{ color: '#bbbbbb' }}>
+                    Recibe reportes automáticos de ventas, pedidos y clientes.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+            {/* FRASE PODEROSA */}
+            <div className="text-center mb-5">
+              <h3 className="text-white">
+                No es un bot. Es tu sistema de ventas funcionando 24/7.
+              </h3>
+            </div>
+
+            {/* CTA */}
+            <div className="text-center">
+              <a
+                href="https://wa.link/mhj4af"
+                className="btn btn-success btn-lg px-5 py-3"
+              >
+                Automatizar mi WhatsApp →
+              </a>
+
+              <p className="text-muted mt-3">
+                Implementación en días. Resultados desde la primera semana.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* AUTORIDAD - Trayectoria */}
         <section className="marketing-section py-5">
           <div className="container">
@@ -248,18 +336,67 @@ export const HomeScreen = () => {
             
             <div className="row">
               {/* Caso 1 - Ticket Flow */}
-              <div className="col-md-4 mb-4">
-                <div className="card border-0 h-100 hover-card" style={{ background: '#151515' }}>
-                  <div className="card-body p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span className="badge px-3 py-2" style={{ background: '#0d6efd', color: '#ffffff' }}>Ticket Flow</span>
-                      <span className="badge px-3 py-2" style={{ background: '#28a745', color: '#ffffff' }}>-85%</span>
-                    </div>
-                    <h3 className="h5 font-weight-bold mb-3" style={{ color: '#000000' }}>Ticketera interna</h3>
-                    <p className="mb-0" style={{ color: '#cccccc' }}>Sistema de tickets para gestión de solicitudes. Reemplazó 3 herramientas externas. La agencia ahora vende este sistema a otros clientes.</p>
+                                    
+            <div className="col-md-4 mb-4">
+              <div 
+                className="card border-0 h-100 hover-card video-card position-relative overflow-hidden"
+                style={{ 
+                  background: '#151515',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                onClick={() => setHovered(prev => !prev)}
+              >
+
+                {/* VIDEO */}
+                <video
+                  src="/videos/alekhart.codes.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  className="video-bg position-absolute top-0 start-0 w-100 h-100"
+                  ref={(el) => {
+                    if (!el) return;
+                    if (hovered) {
+                      el.play().catch(() => {});
+                    } else {
+                      el.pause();
+                      el.currentTime = 0;
+                    }
+                  }}
+                />
+
+                {/* OVERLAY */}
+                <div className={`overlay ${hovered ? 'hide' : ''}`} />
+
+                {/* CONTENIDO */}
+                <div className={`card-content ${hovered ? 'hide' : ''}`}>
+
+                  {/* TOP */}
+                  <div className="card-top d-flex justify-content-between align-items-center">
+                    <span className="badge px-3 py-2 bg-primary">Ticket Flow</span>
+                    <span className="badge px-3 py-2 bg-success">-85%</span>
                   </div>
+
+                  {/* CENTER */}
+                  <div className="card-center">
+                    <div className="play-icon">▶️</div>
+                    <h3 className="title text-white">
+                      Ver sistema en acción
+                    </h3>
+                  </div>
+
+                  {/* BOTTOM */}
+                  <p className="card-text">
+                    Pasa el mouse o toca para ver el sistema real funcionando
+                  </p>
+
                 </div>
+
               </div>
+            </div>
 
               {/* Caso 2 - Vibra Digital */}
               <div className="col-md-4 mb-4">
@@ -517,6 +654,43 @@ export const HomeScreen = () => {
 
       {/* ESTILOS */}
       <style jsx>{`
+          .video-card .video-bg {
+          object-fit: cover;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .video-card:hover .video-bg {
+          opacity: 1;
+        }
+
+        .overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(0,0,0,0.4);
+          transition: opacity 0.3s ease;
+          z-index: 1;
+        }
+
+        .overlay.hide {
+          opacity: 0;
+        }
+
+        .card-content {
+          position: relative;
+          z-index: 2;
+          padding: 1.5rem;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          text-align: center;
+        }
+
+        .card-content.hide {
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
         .hover-card {
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -541,6 +715,101 @@ export const HomeScreen = () => {
         .form-control:focus, .form-select:focus {
           border-color: #0d6efd;
           box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+          .video-card {
+          min-height: 320px;
+        }
+
+        /* desktop mantiene look cine */
+        @media (min-width: 992px) {
+          .video-card {
+            aspect-ratio: 16/9;
+          }
+        }
+
+        .card-content {
+          position: relative;
+          z-index: 2;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 1.5rem;
+          text-align: center;
+        }
+
+        /* ZONAS */
+        .card-top {
+          flex-shrink: 0;
+        }
+
+        .card-center {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        /* elementos internos */
+        .play-icon {
+          font-size: 2.5rem;
+          margin-bottom: 10px;
+        }
+
+        .title {
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+
+        .card-text {
+          font-size: 0.9rem;
+          color: #ccc;
+        }
+
+        /* tablet fix 🔥 */
+        @media (max-width: 991px) {
+          .video-card {
+            min-height: 260px;
+          }
+
+          .title {
+            font-size: 1rem;
+          }
+
+          .play-icon {
+            font-size: 2rem;
+          }
+        }
+
+        /* mobile */
+        @media (max-width: 576px) {
+          .video-card {
+            min-height: 220px;
+          }
+
+          .card-content {
+            padding: 1rem;
+          }
+        }
+          .video-card {
+          width: 100%;
+        }
+
+        .video-card .video-bg {
+          object-fit: cover;
+        }
+                  /* desktop grande */
+        @media (min-width: 1200px) {
+          .video-card {
+            max-height: 280px; /* 🔥 controla el tamaño real */
+          }
+        }
+
+        /* desktop normal */
+        @media (min-width: 992px) and (max-width: 1199px) {
+          .video-card {
+            max-height: 260px;
+          }
         }
       `}</style>
     </div>
