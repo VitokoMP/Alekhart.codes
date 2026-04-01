@@ -147,31 +147,52 @@ export const HomeScreen = () => {
                 </div>
               </div>
 
-              {/* Caso 2 — Vibra Digital */}
               <div className="col-md-4 mb-4">
-                <div className="card border-0 h-100 hover-card"
-                  style={{ background: "#151515" }}>
-                  <div className="card-body p-4">
-                    <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span className="badge px-3 py-2"
-                        style={{ background: "#0d6efd", color: "#ffffff" }}>
-                        Vibra Digital
-                      </span>
-                      <span className="badge px-3 py-2"
-                        style={{ background: "#28a745", color: "#ffffff" }}>
-                        +40%
-                      </span>
-                    </div>
-                    <h3 className="h5 font-weight-bold mb-3 text-white">
-                      Cotizaciones automáticas
-                    </h3>
-                    <p className="mb-0" style={{ color: "#cccccc" }}>
-                      De 2 horas a 30 segundos. Proyecto que no podían entregar
-                      con Elementor + plugins.
-                    </p>
+              <div
+                className="card border-0 h-100 hover-card"
+                style={{
+                  backgroundImage: "url('/img/Logo-VibraDigital.cl-FINAL.png')",
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
+                  backgroundColor: "#0f172a",
+                  backgroundPosition: "center",
+                  position: "relative",
+                  overflow: "hidden",
+                  minHeight: "260px"
+                }}
+              >
+
+                <div className="card-overlay"></div>
+
+                <div
+                  className="card-body p-4"
+                  style={{ position: "relative", zIndex: 2 }}
+                >
+
+                  <div className="d-flex justify-content-between align-items-center mb-3">
+                    <span className="badge px-3 py-2"
+                      style={{ background: "#0d6efd", color: "#fff" }}>
+                      Vibra Digital
+                    </span>
+
+                    <span className="badge px-3 py-2"
+                      style={{ background: "#28a745", color: "#fff" }}>
+                      Estable
+                    </span>
                   </div>
+
+                  <h3 className="h6 font-weight-bold mb-2 text-white">
+                    El sistema de cotizaciones estaba roto
+                  </h3>
+                  <br />
+                  <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "0.95rem" }}>
+                    Se reemplazó por un módulo en React desacoplado.
+                    De proceso manual a sistema estable en producción.
+                  </p>
+
                 </div>
               </div>
+            </div>
 
               {/* Caso 3 — Dashboard */}
               <div className="col-md-4 mb-4">
@@ -204,6 +225,64 @@ export const HomeScreen = () => {
               Cada uno de estos desarrollos permitió que la agencia{" "}
               <strong>cobrara 3x más que un sitio web tradicional</strong>.
             </p>
+          </div>
+        </section>
+
+        {/* ════════════════════════════════════════════════════════
+            TESTIMONIO DE CLIENTE - Imagen original
+            ════════════════════════════════════════════════════════ */}
+        <section className="py-5" style={{ background: "#0a0a0a" }}>
+          <div className="container">    
+            <div className="row justify-content-center mb-5 text-center">
+              <div className="col-lg-8">
+                <h2 className="display-5 font-weight-bold">
+                  Lo que pasa cuando el sistema{" "}
+                  <span className="text-primary">empieza a escalar</span>
+                </h2>
+                <p className="lead text-muted mt-3">
+                  Esto no es teoría. Es lo que ocurre cuando una agencia deja de improvisar.
+                </p>
+              </div>
+            </div>
+
+            <div className="row align-items-center justify-content-center">
+
+              {/* 🖼 IMAGEN */}
+              <div className="col-lg-5 mb-4">
+                <div className="text-center">
+                  <img
+                    src="../img/testimonios/testimonio_api_estudio.jpg"
+                    alt="Testimonio de Angelo Mendez - Api Estudio"
+                    className="img-fluid rounded-4 shadow"
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* 🔥 MÉTRICAS (esto es CLAVE) */}
+            <div className="row text-center mt-5">
+              <div className="col-md-4 mb-3">
+                <div className="p-3">
+                  <h3 className="fw-bold text-primary">-70%</h3>
+                  <p className="text-muted mb-0">Errores en producción</p>
+                </div>
+              </div>
+              <div className="col-md-4 mb-3">
+                <div className="p-3">
+                  <h3 className="fw-bold text-primary">x3</h3>
+                  <p className="text-muted mb-0">Velocidad de entrega</p>
+                </div>
+              </div>
+              <div className="col-md-4 mb-3">
+                <div className="p-3">
+                  <h3 className="fw-bold text-primary">+100%</h3>
+                  <p className="text-muted mb-0">Capacidad del equipo</p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
