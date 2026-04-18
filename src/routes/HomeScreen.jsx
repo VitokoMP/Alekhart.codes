@@ -1,35 +1,333 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { UsuarioContext } from "../context/UsuarioContext";
 import FAQSection from "./Components/FAQSection";
 import { AboutScreen } from "./AboutScreen";
 import ReactProjectsSlider from "./Components/ReactPRojectSlider";
 
 // ─────────────────────────────────────────────────────────────────
-// CAMBIO 1: número centralizado — solo edita estas dos líneas
-const WA_NUMBER = "56973156446"; // tu número sin + ni espacios
-const WA_AGENCIAS_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hola, vi tu portafolio. Quiero saber si califico para trabajar contigo en mi agencia.")}`;
-const WA_NEGOCIOS_URL = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hola, quiero automatizar mi negocio con WhatsApp.")}`;
+// WA LINKS CENTRALIZADOS — CONGELADOS (Object.freeze)
+// Solo edita WA_NUMBER y los textos de cada mensaje
 // ─────────────────────────────────────────────────────────────────
+const WA_NUMBER = "56973156446";
 
+const WA = Object.freeze({
+  agencias: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    "Hola, vi tu portafolio. Quiero saber si califico para trabajar contigo en mi agencia."
+  )}`,
+  negocios: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    "Hola, creo que estoy perdiendo ventas por WhatsApp. ¿Puedes ver mi caso?"
+  )}`,
+  ticketera: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    "Hola, quiero ver la demo de la Ticketera. Creo que le estoy regalando comisiones a plataformas externas."
+  )}`,
+  fase1: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    "Hola, estoy en Fase 1. Vendo por Instagram y pierdo clientes en el DM. Quiero mi catálogo web."
+  )}`,
+  fase2: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    "Hola, estoy en Fase 2. Tengo catálogo o web pero no convierte ni cobra solo. Necesito mi tienda online."
+  )}`,
+  fase3: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    "Hola, estoy en Fase 3. Vendo eventos y quiero mi Ticketera propia sin comisiones."
+  )}`,
+  faseCta: `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(
+    "Hola, quiero saber en qué fase está mi negocio."
+  )}`,
+});
+
+// ─────────────────────────────────────────────────────────────────
+// TRACKING — conecta a GA/Meta Pixel con un solo cambio futuro
+// ─────────────────────────────────────────────────────────────────
+function track(event, label) {
+  try {
+    if (window.gtag) window.gtag("event", event, { event_label: label });
+    if (window.fbq) window.fbq("track", event, { label });
+    console.log(`[track] ${event} — ${label}`);
+  } catch (_) {}
+}
+
+// ─────────────────────────────────────────────────────────────────
+// COMPONENTE: Calculadora de pérdida Ticketera
+// OPTIMIZADO: React.memo + useCallback
+// ─────────────────────────────────────────────────────────────────
+const TicketeraCalc = React.memo(function TicketeraCalc() {
+  const [entradas, setEntradas] = useState("");
+  const [precio, setPrecio] = useState("");
+  const perdida = (parseFloat(entradas) || 0) * (parseFloat(precio) || 0) * 0.1;
+  
+  const fmt = useCallback(
+    (n) => "$" + Math.round(n).toLocaleString("es-CL"),
+    []
+  );
+
+  const handleEntradasChange = useCallback((e) => setEntradas(e.target.value), []);
+  const handlePrecioChange = useCallback((e) => setPrecio(e.target.value), []);
+
+  return (
+    <div>
+      <div className="d-flex gap-2 mb-2">
+        <input
+          type="number"
+          placeholder="Entradas vendidas"
+          value={entradas}
+          onChange={handleEntradasChange}
+          className="form-control form-control-sm"
+          style={{
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            color: "#fff",
+          }}
+          min="0"
+        />
+        <input
+          type="number"
+          placeholder="Precio por entrada $"
+          value={precio}
+          onChange={handlePrecioChange}
+          className="form-control form-control-sm"
+          style={{
+            background: "rgba(255,255,255,0.06)",
+            border: "1px solid rgba(255,255,255,0.15)",
+            color: "#fff",
+          }}
+          min="0"
+        />
+      </div>
+
+      {perdida > 0 ? (
+        <div className="text-center mt-2 p-2 rounded" style={{ background: "rgba(255,77,109,0.1)", border: "1px solid rgba(255,77,109,0.25)" }}>
+          <p style={{ fontSize: "0.7rem", color: "#ff4d6d", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: 4 }}>
+            Esto es lo que perdiste en tu último evento
+          </p>
+          <span style={{ color: "#ff4d6d", fontWeight: 800, fontSize: "1.8rem", lineHeight: 1 }}>
+            {fmt(perdida)}
+          </span>
+          <p style={{ fontSize: "0.72rem", color: "#aaa", marginTop: 4, marginBottom: 0 }}>
+            regalados a plataformas externas. Con tu propia ticketera: $0.
+          </p>
+        </div>
+      ) : (
+        <p style={{ fontSize: "0.72rem", color: "#888", textAlign: "center", marginTop: 6, marginBottom: 0 }}>
+          Ingresa tus números para ver cuánto estás perdiendo →
+        </p>
+      )}
+    </div>
+  );
+});
+
+// ─────────────────────────────────────────────────────────────────
+// DATOS DE FASES — fuera del componente (estables)
+// ─────────────────────────────────────────────────────────────────
+const FASES_DATA = [
+  {
+    id: "fase1",
+    numero: "01",
+    icono: "📱",
+    tag: "Fase 1 · Catálogo",
+    titulo: "Vendo por Instagram y pierdo clientes en el DM",
+    descripcion: "No tienes forma de mostrar tu oferta con claridad ni de cobrar sin depender de WhatsApp.",
+    beneficios: [
+      "Catálogo web con tus productos o servicios",
+      "Botón de contacto directo por producto",
+      "Sin responder cada mensaje a mano",
+      "Diseño que refleja tu marca, no un template"
+    ],
+    waLink: WA.fase1,
+    trackId: "fase_1_catalogo",
+    destacada: false
+  },
+  {
+    id: "fase2",
+    numero: "02",
+    icono: "🛒",
+    tag: "Fase 2 · Tienda",
+    titulo: "Tengo catálogo o web pero no convierte ni cobra solo",
+    descripcion: "Tienes presencia online pero el proceso de compra aún depende de ti para cerrarse.",
+    beneficios: [
+      "Tienda online con carrito y pago integrado",
+      "Transbank nativo — sin salir del sitio",
+      "Confirmación automática al cliente",
+      "Panel de pedidos sin depender de WhatsApp"
+    ],
+    waLink: WA.fase2,
+    trackId: "fase_2_tienda",
+    destacada: false
+  },
+  {
+    id: "fase3",
+    numero: "03",
+    icono: "🎟️",
+    tag: "Fase 3 · Eventos",
+    titulo: "Vendo eventos y el 10% de comisión se lo lleva otro",
+    descripcion: "Tu demanda es real pero la ticketera externa se queda con una parte de cada entrada vendida.",
+    beneficios: [
+      "Ticketera instalada en tu sitio WordPress",
+      "Venta de entradas con Transbank directo",
+      "QR de validación en puerta incluido",
+      "0% comisión a plataformas externas"
+    ],
+    waLink: WA.fase3,
+    trackId: "fase_3_eventos",
+    destacada: true
+  }
+];
+
+// ─────────────────────────────────────────────────────────────────
+// COMPONENTE: FasesSection (optimizado)
+// ─────────────────────────────────────────────────────────────────
+const FasesSection = React.memo(function FasesSection() {
+  const handleFaseClick = useCallback((fase) => {
+    track("fase_click", fase.trackId);
+    window.open(fase.waLink, "_blank");
+  }, []);
+
+  return (
+    <section className="fases-detalle-section py-5" style={{ background: "#0a0a0a" }}>
+      <div className="container">
+        <div className="row justify-content-center text-center mb-5">
+          <div className="col-lg-8">
+            <span
+              className="badge px-4 py-2 mb-3"
+              style={{
+                background: "rgba(0,240,255,0.1)",
+                border: "1px solid rgba(0,240,255,0.3)",
+                color: "#00f0ff",
+                fontSize: "0.7rem",
+                letterSpacing: "2px",
+                fontWeight: 700,
+              }}
+            >
+              LAS 3 FASES
+            </span>
+            <h2 className="display-5 font-weight-bold text-white">
+              ¿Cuánto estás <span className="text-primary">perdiendo</span> hoy?
+            </h2>
+            <p className="lead mt-3" style={{ color: "#aaaaaa" }}>
+              Cada fase tiene un problema específico. Y una solución específica. Sin forzar más de lo que necesitas.
+            </p>
+          </div>
+        </div>
+
+        <div className="row g-4 justify-content-center">
+          {FASES_DATA.map((fase) => (
+            <div key={fase.id} className="col-md-6 col-lg-4">
+              <div
+                className="card h-100 border-0 hover-card position-relative overflow-hidden"
+                style={{
+                  background: "#11111f",
+                  borderTop: fase.destacada ? "3px solid #7c3aed" : "1px solid rgba(255,255,255,0.06)",
+                  cursor: "pointer"
+                }}
+                onClick={() => handleFaseClick(fase)}
+              >
+                <div
+                  className="position-absolute"
+                  style={{
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontSize: "6rem",
+                    lineHeight: 1,
+                    color: "rgba(255,255,255,0.03)",
+                    bottom: "-10px",
+                    right: "15px",
+                    pointerEvents: "none"
+                  }}
+                >
+                  {fase.numero}
+                </div>
+                <div className="card-body p-4" style={{ position: "relative", zIndex: 2 }}>
+                  <div className="display-4 mb-3">{fase.icono}</div>
+                  <span
+                    className="badge mb-2 px-3 py-2"
+                    style={{
+                      background: fase.destacada ? "rgba(124,58,237,0.2)" : "rgba(59,130,246,0.15)",
+                      color: fase.destacada ? "#a78bfa" : "#3b82f6",
+                      fontSize: "0.65rem",
+                      letterSpacing: "1.5px",
+                      fontWeight: 700
+                    }}
+                  >
+                    {fase.tag}
+                  </span>
+                  <h3 className="h5 fw-bold text-white mb-3">{fase.titulo}</h3>
+                  <p className="small mb-4" style={{ color: "#9ca3af", lineHeight: 1.5 }}>
+                    {fase.descripcion}
+                  </p>
+                  <div className="mb-4">
+                    {fase.beneficios.map((beneficio, idx) => (
+                      <div key={idx} className="d-flex align-items-start gap-2 mb-2">
+                        <span style={{ color: "#10b981", fontSize: "1rem" }}>✓</span>
+                        <span style={{ color: "#d1d5db", fontSize: "0.8rem" }}>{beneficio}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div
+                    className="d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-3 text-center"
+                    style={{
+                      background: fase.destacada ? "#7c3aed" : "#2563eb",
+                      borderRadius: "8px",
+                      transition: "all 0.2s ease"
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = "translateY(-2px)";
+                      e.currentTarget.style.boxShadow = "0 8px 20px rgba(37,99,235,0.3)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = "translateY(0)";
+                      e.currentTarget.style.boxShadow = "none";
+                    }}
+                  >
+                    <span className="text-white fw-semibold" style={{ fontSize: "0.85rem" }}>
+                      {fase.destacada ? "Quiero la Ticketera →" : `Estoy en ${fase.tag} →`}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+});
+
+// ─────────────────────────────────────────────────────────────────
+// COMPONENTE PRINCIPAL
+// ─────────────────────────────────────────────────────────────────
 export const HomeScreen = () => {
   const { usuario } = useContext(UsuarioContext);
-  const [formEnviado, setFormEnviado] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const videoRef = useRef(null);
+
+  // Efecto optimizado para el video (evita side-effects en render)
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+
+    if (hovered) {
+      el.play().catch(() => {});
+    } else {
+      el.pause();
+      el.currentTime = 0;
+    }
+  }, [hovered]);
+
+  const handleMouseEnter = useCallback(() => setHovered(true), []);
+  const handleMouseLeave = useCallback(() => setHovered(false), []);
+  const handleVideoClick = useCallback(() => {
+    setHovered((prev) => !prev);
+    track("case_click", "ticket_flow_video");
+  }, []);
 
   return (
     <div>
 
       {/* ════════════════════════════════════════════════════════
-          HERO
-          CAMBIO 2 — mobile: img-codes oculta en xs, h1 más
-          pequeño, botón full-width, sin texto cortado
+          HERO — CAMBIO 1: Hero split con doble entrada
           ════════════════════════════════════════════════════════ */}
       <section className="hero-section text-center">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-12 col-md-10">
 
-              {/* img animada: visible desde md, oculta en mobile para no bloquear el copy */}
               <img
                 className="img-codes d-none d-md-block mx-auto"
                 src="../img/Codes/Codes.png"
@@ -37,52 +335,61 @@ export const HomeScreen = () => {
               />
 
               <br /><br /><br />
+
               <div className="mb-3 text-uppercase fw-bold"
                 style={{ letterSpacing: "3px", color: "#0d6efd", fontSize: "0.85rem" }}>
-                INTERVENCIÓN ESTRATÉGICA · CUPO LIMITADO
+                Sistemas digitales · Latinoamerica
               </div>
 
-              <h1 className="display-4 font-weight-bold mt-3">
-                Arquitectura técnica para agencias{" "}
-                <span className="text-primary">que necesitan escalar sin fricción</span>
+              <h1 className="display-4 font-weight-bold mt-3" style={{ lineHeight: 1.1 }}>
+                Tu negocio ya vende.{" "}
+                <span className="text-primary">Pero estás perdiendo ventas todos los días.</span>
               </h1>
 
               <p className="lead mt-4 mb-4"
                 style={{
                   color: "#c9bebe",
-                  fontSize: "1.3rem",
-                  maxWidth: "800px",
+                  fontSize: "1.25rem",
+                  maxWidth: "720px",
                   margin: "0 auto",
                   fontWeight: "500",
                 }}>
-                Intervengo en{" "}
-                <strong>módulos críticos de sistemas en producción</strong> cuando
-                el equipo interno necesita liberar carga crítica, resolver deuda
-                técnica o estabilizar módulos que frenan el crecimiento.
+                Si vendes por mensajes, dependes de procesos manuales o tu agencia
+                no puede entregar todo lo que cierra —{" "}
+                <strong>hay clientes cayéndose ahora mismo</strong>.
               </p>
 
-              {/* Badges de autoridad */}
               <div className="d-flex justify-content-center flex-wrap gap-3 mb-5">
                 <span className="badge bg-dark text-white px-4 py-2">+11 años</span>
                 <span className="badge bg-dark text-white px-4 py-2">Sistemas en producción</span>
-                <span className="badge bg-dark text-white px-4 py-2">3 agencias máximo</span>
+                <span className="badge bg-dark text-white px-4 py-2">Chile</span>
               </div>
 
-              {/* CAMBIO 3 — CTA directo a WhatsApp, sin formulario */}
-              <a
-                href={WA_AGENCIAS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm hover-scale"
-                style={{ fontSize: "1.2rem" }}
-              >
-                Hablar por WhatsApp →
-              </a>
+              <div className="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mb-4">
+                <a
+                  href={WA.negocios}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => track("cta_click", "hero_negocios")}
+                  className="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm hover-scale"
+                  style={{ fontSize: "1.1rem", fontWeight: 700, minWidth: 260 }}
+                >
+                  Quiero automatizar mi negocio →
+                </a>
+                <a
+                  href={WA.agencias}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => track("cta_click", "hero_agencias")}
+                  className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill hover-scale"
+                  style={{ fontSize: "1rem", fontWeight: 600, minWidth: 200 }}
+                >
+                  Soy agencia →
+                </a>
+              </div>
 
-              <p className="mt-4 text-muted small"
-                style={{ maxWidth: "600px", margin: "20px auto 0" }}>
-                No reemplazo equipos. Refuerzo donde el sistema necesita escalar
-                sin perder clientes.
+              <p className="text-muted small" style={{ maxWidth: "500px", margin: "0 auto" }}>
+                Sin formularios. Sin esperas. Respondo en menos de 24 h.
               </p>
             </div>
           </div>
@@ -91,11 +398,140 @@ export const HomeScreen = () => {
 
       <div className="background-image-container">
 
-        {/* ════════════════════════════════════════════════════════
-            CAMBIO 4 — CASOS DE ÉXITO subidos al top
-            Antes estaban a mitad de página, ahora van primero
-            porque son el argumento más poderoso
-            ════════════════════════════════════════════════════════ */}
+        {/* NUEVA SECCIÓN DE FASES */}
+        <FasesSection />
+
+        {/* SECCIÓN NEGOCIOS / TICKETERA */}
+        <section className="py-5" style={{ background: "#0a0a0a" }}>
+          <div className="container">
+            <div className="row justify-content-center text-center mb-5">
+              <div className="col-lg-8">
+                <h2 className="display-5 font-weight-bold text-white">
+                  Si vendes por mensajes,{" "}
+                  <span className="text-primary">estás perdiendo ventas cada día.</span>
+                </h2>
+                <p className="lead mt-4" style={{ color: "#cccccc" }}>
+                  Automatizo respuestas, pedidos y cobros para que tu negocio
+                  venda incluso cuando no estás. Sin bots genéricos. Un sistema
+                  hecho para tu operación.
+                </p>
+              </div>
+            </div>
+
+            <div className="row g-4 justify-content-center mb-5">
+              <div className="col-md-6 col-lg-4">
+                <div
+                  className="card h-100 border-0 p-4 text-center hover-card"
+                  style={{ background: "#151515", cursor: "pointer" }}
+                  onClick={() => track("feature_click", "whatsapp_auto")}
+                >
+                  <div className="display-4 mb-3">🤖</div>
+                  <h4 className="text-white mb-2">Responde clientes automáticamente</h4>
+                  <p style={{ color: "#bbbbbb" }}>
+                    Atención inmediata 24/7. Tus clientes reciben respuesta aunque sean las 3 AM.
+                  </p>
+                </div>
+              </div>
+
+              <div className="col-md-6 col-lg-4">
+                <div
+                  className="card h-100 border-0 p-4 text-center hover-card"
+                  style={{ background: "#151515", cursor: "pointer" }}
+                  onClick={() => track("feature_click", "venta_directa")}
+                >
+                  <div className="display-4 mb-3">🛒</div>
+                  <h4 className="text-white mb-2">Vende directo desde WhatsApp</h4>
+                  <p style={{ color: "#bbbbbb" }}>
+                    Muestra productos, genera pedidos y envía links de pago sin salir de la conversación.
+                  </p>
+                </div>
+              </div>
+
+              <div className="col-md-6 col-lg-4">
+                <div
+                  className="card h-100 border-0 p-4 text-center hover-card"
+                  style={{
+                    background: "#151515",
+                    borderTop: "2px solid #7c3aed",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => track("feature_click", "ticketera")}
+                >
+                  <div className="display-4 mb-3">🎟️</div>
+                  <h4 className="text-white mb-2">Ticketera propia — 0% comisión</h4>
+                  <p style={{ color: "#bbbbbb" }} className="mb-3">
+                    Transbank directo en tu sitio. QR en puerta incluido. Sin regalarle el 10% a nadie.
+                  </p>
+                  <div
+                    className="mt-auto p-3 rounded-3 text-start"
+                    style={{
+                      background: "rgba(124,58,237,0.1)",
+                      border: "1px solid rgba(124,58,237,0.25)",
+                    }}
+                  >
+                    <p style={{ fontSize: "0.7rem", color: "#a78bfa", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: 8 }}>
+                      Calculadora de pérdida
+                    </p>
+                    <TicketeraCalc />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center mb-3">
+              <p className="text-white mb-4" style={{ fontSize: "1.1rem" }}>
+                No es un bot. Es tu sistema de ventas funcionando 24/7.
+              </p>
+              <div className="d-flex gap-3 justify-content-center flex-wrap">
+                <a
+                  href={WA.negocios}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => track("cta_click", "negocios_whatsapp")}
+                  className="btn btn-success btn-lg px-5 py-3 rounded-pill hover-scale"
+                  style={{ fontWeight: 700 }}
+                >
+                  Automatizar mi negocio →
+                </a>
+                <a
+                  href={WA.ticketera}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => track("cta_click", "negocios_ticketera")}
+                  className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill hover-scale"
+                >
+                  Ver demo Ticketera →
+                </a>
+              </div>
+              <p className="text-muted mt-3 small">
+                Implementación en días. Resultados desde la primera semana.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SEPARADOR VISUAL */}
+        <div style={{ height: 2, background: "linear-gradient(90deg, transparent, rgba(13,110,253,0.4), transparent)" }} />
+
+        <section className="py-4" style={{ background: "#080810" }}>
+          <div className="container text-center">
+            <span
+              className="badge px-4 py-2"
+              style={{
+                background: "rgba(13,110,253,0.1)",
+                border: "1px solid rgba(13,110,253,0.3)",
+                color: "#3b82f6",
+                fontSize: "0.78rem",
+                letterSpacing: "2.5px",
+                fontWeight: 700,
+              }}
+            >
+              ¿TIENES UNA AGENCIA? — ESTO ES PARA TI
+            </span>
+          </div>
+        </section>
+
+        {/* CASOS DE ÉXITO */}
         <section className="py-5" style={{ background: "#0a0a0a" }}>
           <div className="container">
             <div className="row">
@@ -104,31 +540,29 @@ export const HomeScreen = () => {
                   Agencias que ya{" "}
                   <span className="text-primary">dejaron de instalar plugins</span>
                 </h2>
+                <p className="mt-3" style={{ color: "#888", fontSize: "1rem" }}>
+                  Sistemas reales. En producción. Generando ingresos hoy.
+                </p>
               </div>
             </div>
 
             <div className="row">
-              {/* Caso 1 — Ticket Flow (video hover, lógica original intacta) */}
               <div className="col-md-4 mb-4">
                 <div
                   className="card border-0 h-100 hover-card video-card position-relative overflow-hidden"
                   style={{ background: "#151515", cursor: "pointer" }}
-                  onMouseEnter={() => setHovered(true)}
-                  onMouseLeave={() => setHovered(false)}
-                  onClick={() => setHovered((prev) => !prev)}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  onClick={handleVideoClick}
                 >
                   <video
+                    ref={videoRef}
                     src="/videos/alekhart.codes.mp4"
                     muted
                     loop
                     playsInline
                     preload="auto"
                     className="video-bg position-absolute top-0 start-0 w-100 h-100"
-                    ref={(el) => {
-                      if (!el) return;
-                      if (hovered) { el.play().catch(() => {}); }
-                      else { el.pause(); el.currentTime = 0; }
-                    }}
                   />
                   <div className={`overlay ${hovered ? "hide" : ""}`} />
                   <div className={`card-content ${hovered ? "hide" : ""}`}>
@@ -148,64 +582,54 @@ export const HomeScreen = () => {
               </div>
 
               <div className="col-md-4 mb-4">
-              <div
-                className="card border-0 h-100 hover-card"
-                style={{
-                  backgroundImage: "url('/img/Logo-VibraDigital.cl-FINAL.png')",
-                  backgroundSize: "contain",
-                  backgroundRepeat: "no-repeat",
-                  backgroundColor: "#0f172a",
-                  backgroundPosition: "center",
-                  position: "relative",
-                  overflow: "hidden",
-                  minHeight: "260px"
-                }}
-              >
-
-                <div className="card-overlay"></div>
-
                 <div
-                  className="card-body p-4"
-                  style={{ position: "relative", zIndex: 2 }}
+                  className="card border-0 h-100 hover-card"
+                  style={{
+                    backgroundImage: "url('/img/Logo-VibraDigital.cl-FINAL.png')",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    backgroundColor: "#0f172a",
+                    backgroundPosition: "center",
+                    position: "relative",
+                    overflow: "hidden",
+                    minHeight: "260px",
+                  }}
+                  onClick={() => track("case_click", "vibra_digital")}
                 >
-
-                  <div className="d-flex justify-content-between align-items-center mb-3">
-                    <span className="badge px-3 py-2"
-                      style={{ background: "#0d6efd", color: "#fff" }}>
-                      Vibra Digital
-                    </span>
-
-                    <span className="badge px-3 py-2"
-                      style={{ background: "#28a745", color: "#fff" }}>
-                      Estable
-                    </span>
+                  <div className="card-overlay" />
+                  <div className="card-body p-4" style={{ position: "relative", zIndex: 2 }}>
+                    <div className="d-flex justify-content-between align-items-center mb-3">
+                      <span className="badge px-3 py-2" style={{ background: "#0d6efd", color: "#fff" }}>
+                        Vibra Digital
+                      </span>
+                      <span className="badge px-3 py-2" style={{ background: "#28a745", color: "#fff" }}>
+                        Estable
+                      </span>
+                    </div>
+                    <h3 className="h6 font-weight-bold mb-2 text-white">
+                      El sistema de cotizaciones estaba roto
+                    </h3>
+                    <br />
+                    <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "0.95rem" }}>
+                      Se reemplazó por un módulo en React desacoplado.
+                      De proceso manual a sistema estable en producción.
+                    </p>
                   </div>
-
-                  <h3 className="h6 font-weight-bold mb-2 text-white">
-                    El sistema de cotizaciones estaba roto
-                  </h3>
-                  <br />
-                  <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "0.95rem" }}>
-                    Se reemplazó por un módulo en React desacoplado.
-                    De proceso manual a sistema estable en producción.
-                  </p>
-
                 </div>
               </div>
-            </div>
 
-              {/* Caso 3 — Dashboard */}
               <div className="col-md-4 mb-4">
-                <div className="card border-0 h-100 hover-card"
-                  style={{ background: "#151515" }}>
+                <div
+                  className="card border-0 h-100 hover-card"
+                  style={{ background: "#151515" }}
+                  onClick={() => track("case_click", "dashboard")}
+                >
                   <div className="card-body p-4">
                     <div className="d-flex justify-content-between align-items-center mb-3">
-                      <span className="badge px-3 py-2"
-                        style={{ background: "#0d6efd", color: "#ffffff" }}>
+                      <span className="badge px-3 py-2" style={{ background: "#0d6efd", color: "#ffffff" }}>
                         Dashboard
                       </span>
-                      <span className="badge px-3 py-2"
-                        style={{ background: "#28a745", color: "#ffffff" }}>
+                      <span className="badge px-3 py-2" style={{ background: "#28a745", color: "#ffffff" }}>
                         +100%
                       </span>
                     </div>
@@ -213,8 +637,7 @@ export const HomeScreen = () => {
                       Panel administrativo
                     </h3>
                     <p className="mb-0" style={{ color: "#cccccc" }}>
-                      Métricas en tiempo real. Adiós a los reportes manuales
-                      en Excel.
+                      Métricas en tiempo real. Adiós a los reportes manuales en Excel.
                     </p>
                   </div>
                 </div>
@@ -228,11 +651,9 @@ export const HomeScreen = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            TESTIMONIO DE CLIENTE - Imagen original
-            ════════════════════════════════════════════════════════ */}
+        {/* TESTIMONIO DE CLIENTE */}
         <section className="py-5" style={{ background: "#0a0a0a" }}>
-          <div className="container">    
+          <div className="container">
             <div className="row justify-content-center mb-5 text-center">
               <div className="col-lg-8">
                 <h2 className="display-5 font-weight-bold">
@@ -246,8 +667,6 @@ export const HomeScreen = () => {
             </div>
 
             <div className="row align-items-center justify-content-center">
-
-              {/* 🖼 IMAGEN */}
               <div className="col-lg-5 mb-4">
                 <div className="text-center">
                   <img
@@ -258,10 +677,8 @@ export const HomeScreen = () => {
                   />
                 </div>
               </div>
-
             </div>
 
-            {/* 🔥 MÉTRICAS (esto es CLAVE) */}
             <div className="row text-center mt-5">
               <div className="col-md-4 mb-3">
                 <div className="p-3">
@@ -282,29 +699,23 @@ export const HomeScreen = () => {
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            AUTORIDAD — Trayectoria + Slider (sin cambios)
-            ════════════════════════════════════════════════════════ */}
+        {/* AUTORIDAD — Slider */}
         <section className="marketing-section py-5">
           <div className="container">
             <div className="row justify-content-md-center">
               <div className="col-md-10 col-lg-8 text-center">
-                <h2 className="display-5 font-weight-bold mb-4"
-                  style={{ color: "#ffffff" }}>
+                <h2 className="display-5 font-weight-bold mb-4" style={{ color: "#ffffff" }}>
                   Sistemas críticos{" "}
                   <span className="text-primary">en producción</span>
                 </h2>
-                <p className="lead"
-                  style={{ color: "rgba(255,255,255,0.9)", fontSize: "1.2rem" }}>
+                <p className="lead" style={{ color: "rgba(255,255,255,0.9)", fontSize: "1.2rem" }}>
                   Ticket Flow, Vibra Digital y otros módulos que hoy son productos
                   dentro de agencias.{" "}
                   <strong>
-                    No son experimentos. Están activos, generando ingresos y
-                    escalando con sus equipos.
+                    No son experimentos. Están activos, generando ingresos y escalando con sus equipos.
                   </strong>
                 </p>
                 <div className="mt-5">
@@ -315,19 +726,16 @@ export const HomeScreen = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            ¿CUÁNDO TIENE SENTIDO TRAERME? (sin cambios)
-            ════════════════════════════════════════════════════════ */}
+        {/* ¿CUÁNDO TIENE SENTIDO TRAERME? */}
         <section className="py-5" style={{ background: "#ffffff" }}>
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-lg-8 text-center mb-5">
                 <span className="badge bg-primary text-white px-3 py-2 mb-3"
                   style={{ fontSize: "0.9rem" }}>
-                  ROL ESTRATÉGICO
+                  ROL ESTRATÉGICO · AGENCIAS
                 </span>
-                <h2 className="display-5 font-weight-bold mb-4"
-                  style={{ color: "#212529" }}>
+                <h2 className="display-5 font-weight-bold mb-4" style={{ color: "#212529" }}>
                   ¿Cuándo tiene sentido traerme?
                 </h2>
               </div>
@@ -359,9 +767,7 @@ export const HomeScreen = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            PROCESO — Así intervenimos (sin cambios)
-            ════════════════════════════════════════════════════════ */}
+        {/* PROCESO */}
         <section className="py-5" style={{ background: "#f8f9fa" }}>
           <div className="container">
             <div className="row mb-5 text-center">
@@ -372,58 +778,28 @@ export const HomeScreen = () => {
               </div>
             </div>
             <div className="row g-4 justify-content-center">
-              <div className="col-md-6 col-lg-4 mb-3">
-                <div className="card h-100 border-0 shadow-sm p-3 text-center">
-                  <div className="card-body">
-                    <div className="display-4 mb-3">🎯</div>
-                    <h4 className="h5 fw-bold mb-3" style={{ color: "#000000" }}>Acotamos</h4>
-                    <p className="text-muted mb-0">Seleccionamos un módulo, servicio o sistema concreto que esté frenando el crecimiento.</p>
+              {[
+                { icon: "🎯", title: "Acotamos", desc: "Seleccionamos un módulo, servicio o sistema concreto que esté frenando el crecimiento." },
+                { icon: "🔍", title: "Diagnosticamos", desc: "Analizamos arquitectura, deuda técnica y cuellos de botella." },
+                { icon: "⚙️", title: "Ejecutamos", desc: "Refactorizamos, rediseñamos o escalamos la capa crítica con estándares de calidad." },
+                { icon: "📘", title: "Entregamos", desc: "Documentación clara, tests y estabilidad para que el equipo lo adopte sin fricción." },
+                { icon: "🚪", title: "Salimos", desc: "Transferencia clara al equipo interno y cierre formal. Sin interferir en la cultura ni en el flujo de trabajo diario." },
+              ].map((step) => (
+                <div key={step.title} className="col-md-6 col-lg-4 mb-3">
+                  <div className="card h-100 border-0 shadow-sm p-3 text-center">
+                    <div className="card-body">
+                      <div className="display-4 mb-3">{step.icon}</div>
+                      <h4 className="h5 fw-bold mb-3" style={{ color: "#000000" }}>{step.title}</h4>
+                      <p className="text-muted mb-0">{step.desc}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-md-6 col-lg-4 mb-3">
-                <div className="card h-100 border-0 shadow-sm p-3 text-center">
-                  <div className="card-body">
-                    <div className="display-4 mb-3">🔍</div>
-                    <h4 className="h5 fw-bold mb-3" style={{ color: "#000000" }}>Diagnosticamos</h4>
-                    <p className="text-muted mb-0">Analizamos arquitectura, deuda técnica y cuellos de botella.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-4 mb-3">
-                <div className="card h-100 border-0 shadow-sm p-3 text-center">
-                  <div className="card-body">
-                    <div className="display-4 mb-3">⚙️</div>
-                    <h4 className="h5 fw-bold mb-3" style={{ color: "#000000" }}>Ejecutamos</h4>
-                    <p className="text-muted mb-0">Refactorizamos, rediseñamos o escalamos la capa crítica con estándares de calidad.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-4 mb-3">
-                <div className="card h-100 border-0 shadow-sm p-3 text-center">
-                  <div className="card-body">
-                    <div className="display-4 mb-3">📘</div>
-                    <h4 className="h5 fw-bold mb-3" style={{ color: "#000000" }}>Entregamos</h4>
-                    <p className="text-muted mb-0">Documentación clara, tests y estabilidad para que el equipo lo adopte sin fricción.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-4 mb-3">
-                <div className="card h-100 border-0 shadow-sm p-3 text-center">
-                  <div className="card-body">
-                    <div className="display-4 mb-3">🚪</div>
-                    <h4 className="h5 fw-bold mb-3" style={{ color: "#000000" }}>Salimos</h4>
-                    <p className="text-muted mb-0">Transferencia clara al equipo interno, documentación funcional y cierre formal de la intervención. Sin interferir en la cultura ni en el flujo de trabajo diario.</p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            PROBLEMA — Diagnóstico (sin cambios)
-            ════════════════════════════════════════════════════════ */}
+        {/* PROBLEMA — Diagnóstico */}
         <section className="py-5">
           <div className="container">
             <div className="row">
@@ -435,48 +811,47 @@ export const HomeScreen = () => {
               </div>
             </div>
             <div className="row g-4 justify-content-center">
-              <div className="col-md-6 col-lg-4 mb-4">
-                <div className="card h-100 border-0 shadow-sm hover-card">
-                  <div className="card-body text-center p-4">
-                    <div className="display-4 mb-3">🔌</div>
-                    <h4 style={{ color: "#000000" }} className="h5 font-weight-bold mb-3">
-                      Llevas 3 semanas buscando un plugin que no existe
-                    </h4>
-                    <p className="mb-0 text-muted">
-                      Y sabes que si existiera, costaría $99 y no haría lo que realmente necesitas.
-                    </p>
+              {[
+                {
+                  icon: "🔌",
+                  title: "Llevas 3 semanas buscando un plugin que no existe",
+                  desc: "Y sabes que si existiera, costaría $99 y no haría lo que realmente necesitas.",
+                  trackId: "pain_plugin",
+                },
+                {
+                  icon: "⏰",
+                  title: "Todo lo complejo depende de ti",
+                  desc: "Si no lo haces tú, no se hace. Y eso no escala.",
+                  trackId: "pain_bottleneck",
+                },
+                {
+                  icon: "📦",
+                  title: "Dijiste \"sí\" a un proyecto que no sabes cómo vas a entregar",
+                  desc: "Porque el cliente vale la pena, pero la solución no existe.",
+                  trackId: "pain_promise",
+                },
+              ].map((item) => (
+                <div
+                  key={item.trackId}
+                  className="col-md-6 col-lg-4 mb-4"
+                  onClick={() => track("pain_click", item.trackId)}
+                >
+                  <div className="card h-100 border-0 shadow-sm hover-card">
+                    <div className="card-body text-center p-4">
+                      <div className="display-4 mb-3">{item.icon}</div>
+                      <h4 style={{ color: "#000000" }} className="h5 font-weight-bold mb-3">
+                        {item.title}
+                      </h4>
+                      <p className="mb-0 text-muted">{item.desc}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-md-6 col-lg-4 mb-4">
-                <div className="card h-100 border-0 shadow-sm hover-card">
-                  <div className="card-body text-center p-4">
-                    <div className="display-4 mb-3">⏰</div>
-                    <h4 style={{ color: "#000000" }} className="h5 font-weight-bold mb-3">
-                      Todo lo complejo depende de ti
-                    </h4>
-                    <p className="mb-0 text-muted">Si no lo haces tú, no se hace. Y eso no escala.</p>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-4 mb-4">
-                <div className="card h-100 border-0 shadow-sm hover-card">
-                  <div className="card-body text-center p-4">
-                    <div className="display-4 mb-3">📦</div>
-                    <h4 style={{ color: "#000000" }} className="h5 font-weight-bold mb-3">
-                      Dijiste "sí" a un proyecto que no sabes cómo vas a entregar
-                    </h4>
-                    <p className="mb-0 text-muted">Porque el cliente vale la pena, pero la solución no existe.</p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            FILTRO — Criterios (sin cambios)
-            ════════════════════════════════════════════════════════ */}
+        {/* FILTRO — Criterios agencias */}
         <div className="container mt-5 pt-4">
           <div className="row">
             <div className="col-12 text-center mb-4">
@@ -500,7 +875,7 @@ export const HomeScreen = () => {
                       "Tu agencia aún no vende proyectos de desarrollo a medida",
                       "Tu negocio es instalar plugins",
                       "No tienes clientes con necesidades complejas",
-                      'Buscas un programador "barato"',
+                      "Buscas un programador \"barato\"",
                     ].map((item) => (
                       <li key={item} className="mb-2 d-flex align-items-start">
                         <span style={{ color: "#dc3545", marginRight: "10px", fontSize: "1.2rem" }}>●</span>
@@ -542,7 +917,7 @@ export const HomeScreen = () => {
                   Si calificas,{" "}
                   <span className="text-primary">tienes mi atención exclusiva</span>.
                 </p>
-                <p className="text-muted mt-2">
+                <p className="text-muted mt-2 mb-0">
                   Solo respondo conversaciones que cumplan estos criterios.
                 </p>
               </div>
@@ -550,10 +925,7 @@ export const HomeScreen = () => {
           </div>
         </div>
 
-        {/* ════════════════════════════════════════════════════════
-            CAMBIO 3 (CTA final) — WhatsApp directo
-            Reemplaza el formulario largo de Netlify
-            ════════════════════════════════════════════════════════ */}
+        {/* CTA FINAL — agencias */}
         <section id="contacto" className="py-5 bg-primary text-white mt-5">
           <div className="container">
             <div className="row justify-content-center">
@@ -575,9 +947,10 @@ export const HomeScreen = () => {
 
                 <div className="text-center">
                   <a
-                    href={WA_AGENCIAS_URL}
+                    href={WA.agencias}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => track("cta_click", "cta_final_agencias")}
                     className="btn btn-success btn-lg px-5 py-3 rounded-pill shadow fw-bold hover-scale"
                     style={{ fontSize: "1.3rem" }}
                   >
@@ -593,215 +966,10 @@ export const HomeScreen = () => {
           </div>
         </section>
 
-        {/* ════════════════════════════════════════════════════════
-            CAMBIO 5 — SEPARADOR DE TARGETS
-            WhatsApp Sales OS movido aquí, con badge
-            "¿No eres una agencia?" para separar el público
-            ════════════════════════════════════════════════════════ */}
-        <section className="py-5" style={{ background: "#0a0a0a" }}>
-          <div className="container">
-            <div className="row justify-content-center text-center mb-5">
-              <div className="col-lg-8">
-                <span className="badge bg-secondary px-3 py-2 mb-3"
-                  style={{ fontSize: "0.85rem", letterSpacing: "2px" }}>
-                  ¿NO ERES UNA AGENCIA?
-                </span>
-                <h2 className="display-5 font-weight-bold text-white">
-                  Convierte tu WhatsApp en un{" "}
-                  <span className="text-primary">sistema automático de ventas</span>
-                </h2>
-                <p className="lead mt-4" style={{ color: "#cccccc" }}>
-                  Si tu negocio depende de responder mensajes manualmente, estás
-                  perdiendo ventas. Automatizamos respuestas, pedidos y seguimiento
-                  con IA para que tu negocio venda incluso cuando no estás.
-                </p>
-              </div>
-            </div>
-
-            <div className="row g-4 justify-content-center mb-5">
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100 border-0 p-4 text-center"
-                  style={{ background: "#151515" }}>
-                  <div className="display-4 mb-3">🤖</div>
-                  <h4 className="text-white">Responde clientes automáticamente</h4>
-                  <p style={{ color: "#bbbbbb" }}>Atención inmediata 24/7 sin depender de ti.</p>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100 border-0 p-4 text-center"
-                  style={{ background: "#151515" }}>
-                  <div className="display-4 mb-3">🛒</div>
-                  <h4 className="text-white">Vende directo desde WhatsApp</h4>
-                  <p style={{ color: "#bbbbbb" }}>
-                    Muestra productos, genera pedidos y envía links de pago automáticamente.
-                  </p>
-                </div>
-              </div>
-              <div className="col-md-6 col-lg-4">
-                <div className="card h-100 border-0 p-4 text-center"
-                  style={{ background: "#151515" }}>
-                  <div className="display-4 mb-3">📊</div>
-                  <h4 className="text-white">Controla tu negocio en tiempo real</h4>
-                  <p style={{ color: "#bbbbbb" }}>
-                    Recibe reportes automáticos de ventas, pedidos y clientes.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="text-center mb-5">
-              <h3 className="text-white">
-                No es un bot. Es tu sistema de ventas funcionando 24/7.
-              </h3>
-            </div>
-
-            <div className="text-center">
-              <a
-                href={WA_NEGOCIOS_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-success btn-lg px-5 py-3"
-              >
-                Automatizar mi WhatsApp →
-              </a>
-              <p className="text-muted mt-3">
-                Implementación en días. Resultados desde la primera semana.
-              </p>
-            </div>
-          </div>
-        </section>
-
         <FAQSection />
         <AboutScreen />
       </div>
 
-      {/* ════════════════════════════════════════════════════════
-          ESTILOS — originales intactos + fixes mobile hero
-          ════════════════════════════════════════════════════════ */}
-      <style jsx>{`
-        /* ── Hero mobile ── */
-        @media (max-width: 576px) {
-          .hero-section h1 {
-            font-size: 1.75rem !important;
-            line-height: 1.3;
-          }
-          .hero-section .lead {
-            font-size: 1rem !important;
-          }
-          .hero-section .btn {
-            width: 100%;
-            font-size: 1rem !important;
-          }
-          .hero-section .badge {
-            font-size: 0.72rem;
-          }
-        }
-
-        /* ── Video card (originales) ── */
-        .video-card .video-bg {
-          object-fit: cover;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        .video-card:hover .video-bg {
-          opacity: 1;
-        }
-        .overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.4);
-          transition: opacity 0.3s ease;
-          z-index: 1;
-        }
-        .overlay.hide {
-          opacity: 0;
-        }
-        .card-content {
-          position: relative;
-          z-index: 2;
-          padding: 1.5rem;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          text-align: center;
-          transition: opacity 0.3s ease;
-        }
-        .card-content.hide {
-          opacity: 0;
-        }
-        .card-top {
-          flex-shrink: 0;
-        }
-        .card-center {
-          flex-grow: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        .play-icon {
-          font-size: 2.5rem;
-          margin-bottom: 10px;
-        }
-        .title {
-          font-size: 1.1rem;
-          font-weight: 700;
-        }
-        .card-text {
-          font-size: 0.9rem;
-          color: #ccc;
-        }
-        .video-card {
-          min-height: 320px;
-          width: 100%;
-        }
-        @media (min-width: 1200px) {
-          .video-card { max-height: 280px; }
-        }
-        @media (min-width: 992px) and (max-width: 1199px) {
-          .video-card { max-height: 260px; }
-        }
-        @media (max-width: 991px) {
-          .video-card { min-height: 260px; }
-          .title { font-size: 1rem; }
-          .play-icon { font-size: 2rem; }
-        }
-        @media (max-width: 576px) {
-          .video-card { min-height: 220px; }
-          .card-content { padding: 1rem; }
-        }
-
-        /* ── Hover effects (originales) ── */
-        .hover-card {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hover-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3) !important;
-        }
-        .hover-scale {
-          transition: transform 0.3s ease;
-        }
-        .hover-scale:hover {
-          transform: scale(1.05);
-        }
-
-        /* ── Misc (originales) ── */
-        .badge {
-          font-size: 0.9rem;
-          font-weight: 500;
-        }
-        .form-control,
-        .form-select {
-          border: 1px solid #dee2e6;
-          padding: 0.75rem 1rem;
-        }
-        .form-control:focus,
-        .form-select:focus {
-          border-color: #0d6efd;
-          box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-        }
-      `}</style>
     </div>
   );
-};
+} 
