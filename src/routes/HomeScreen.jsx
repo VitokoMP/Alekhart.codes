@@ -444,6 +444,8 @@ export const HomeScreen = () => {
                 className="img-codes d-md-block mx-auto"
                 src="../img/Codes/Codes.png"
                 alt="codes"
+                style={{ maxWidth: "100%", height: "auto" }}
+
               />
 
               <br /><br /><br />
@@ -484,7 +486,7 @@ export const HomeScreen = () => {
                   rel="noopener noreferrer"
                   onClick={() => track("cta_click", "hero_negocios")}
                   className="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm hover-scale"
-                  style={{ fontSize: "1.1rem", fontWeight: 700, minWidth: 260 }}
+                  style={{ fontSize: "1.1rem", fontWeight: 700, width: "100%", maxWidth: 260 }}
                 >
                   Quiero automatizar mi negocio →
                 </a>
@@ -494,7 +496,7 @@ export const HomeScreen = () => {
                   rel="noopener noreferrer"
                   onClick={() => track("cta_click", "hero_agencias")}
                   className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill hover-scale"
-                  style={{ fontSize: "1rem", fontWeight: 600, minWidth: 200 }}
+                  style={{ fontSize: "1rem", fontWeight: 600, width: "100%", maxWidth: 200 }}
                 >
                   Soy agencia →
                 </a>
