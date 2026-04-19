@@ -340,6 +340,8 @@ export const HomeScreen = () => {
                 alt="codes"
               />
 
+              <br /><br />
+
               <div className="mb-3 text-uppercase fw-bold"
                 style={{ letterSpacing: "3px", color: "#0d6efd", fontSize: "0.85rem" }}>
                 Sistemas digitales · Latinoamerica
