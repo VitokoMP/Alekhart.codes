@@ -441,7 +441,7 @@ export const HomeScreen = () => {
             <div className="col-12 col-md-10">
 
               <img
-                className="img-codes d-md-block mx-auto"
+                className="img-codes d-none d-md-block mx-auto"
                 src="../img/Codes/Codes.png"
                 alt="codes"
               />
@@ -638,14 +638,17 @@ export const HomeScreen = () => {
         <section className="py-4" style={{ background: "#080810" }}>
           <div className="container text-center">
             <span
-              className="badge px-4 py-2"
+              className="badge px-4 py-2 text-wrap"
               style={{
                 background: "rgba(13,110,253,0.1)",
                 border: "1px solid rgba(13,110,253,0.3)",
                 color: "#3b82f6",
                 fontSize: "0.78rem",
-                letterSpacing: "2.5px",
+                letterSpacing: "1.5px",
                 fontWeight: 700,
+                whiteSpace: "normal",
+                wordBreak: "break-word",
+                textAlign: "center",
               }}
             >
               ¿TIENES UNA AGENCIA? — ESTO ES PARA TI
