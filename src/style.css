@@ -212,10 +212,11 @@ body {
    IMG CODES
    ───────────────────────────────────────────── */
 .img-codes {
-  max-width: 260px;
+  max-width: 720px;
   width: 100%;
   height: auto;
-  margin-bottom: 1.5rem;
+  margin-bottom: -7.5rem;
+  margin-top: -4.5rem;
   filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
 }
 
@@ -250,7 +251,7 @@ body {
    CARDS
    ───────────────────────────────────────────── */
 .card {
-  background: var(--card) !important;
+  background: var(--card);
   border: 1px solid var(--border) !important;
   border-radius: 20px;
   color: var(--text-main);
@@ -587,4 +588,51 @@ body {
 
 .shadow-sm {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+.card-overlay {
+  display: none;
+}
+
+/* ─────────────────────────────────────────────
+   TICKETERA CALC - FIX legibilidad
+   ───────────────────────────────────────────── */
+.ticketera-card {
+  padding: 1.5rem;
+}
+
+.ticketera-card .form-control {
+  font-size: 1rem !important;
+  padding: 0.75rem !important;
+}
+
+.ticketera-card .d-flex.gap-2 {
+  flex-direction: column;
+  gap: 0.75rem !important;
+}
+
+.ticketera-calc-label {
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #a78bfa;
+  margin-bottom: 0.5rem;
+}
+
+.ticketera-resultado {
+  font-size: 1rem;
+  padding: 1rem;
+}
+
+.ticketera-resultado span {
+  font-size: 2rem !important;
+}
+
+@media (max-width: 768px) {
+  .ticketera-card .form-control {
+    font-size: 0.9rem !important;
+  }
+  
+  .ticketera-resultado span {
+    font-size: 1.5rem !important;
+  }
 }

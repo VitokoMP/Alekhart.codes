@@ -63,54 +63,60 @@ const TicketeraCalc = React.memo(function TicketeraCalc() {
   const handlePrecioChange = useCallback((e) => setPrecio(e.target.value), []);
 
   return (
-    <div>
-      <div className="d-flex gap-2 mb-2">
-        <input
-          type="number"
-          placeholder="Entradas vendidas"
-          value={entradas}
-          onChange={handleEntradasChange}
-          className="form-control form-control-sm"
-          style={{
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.15)",
-            color: "#fff",
-          }}
-          min="0"
-        />
-        <input
-          type="number"
-          placeholder="Precio por entrada $"
-          value={precio}
-          onChange={handlePrecioChange}
-          className="form-control form-control-sm"
-          style={{
-            background: "rgba(255,255,255,0.06)",
-            border: "1px solid rgba(255,255,255,0.15)",
-            color: "#fff",
-          }}
-          min="0"
-        />
-      </div>
+  <div className="mt-auto p-3 rounded-3 text-start ticketera-card">
+  
+  <div className="d-flex flex-column gap-2 mb-3">
+    <input
+      type="number"
+      placeholder="Entradas Vendidas: 500"
+      value={entradas}
+      onChange={handleEntradasChange}
+      className="form-control form-control-lg"
+      style={{
+        background: "rgba(124,58,237,0.1)",
+        border: "1px solid rgba(124,58,237,0.3)",
+        color: "#fff",
+        fontSize: "1rem"
+      }}
+      min="0"
+    />
+    <input
+      type="number"
+      placeholder="Valor entrada: $ 15000"
+      value={precio}
+      onChange={handlePrecioChange}
+      className="form-control form-control-lg"
+      style={{
+        background: "rgba(124,58,237,0.1)",
+        border: "1px solid rgba(124,58,237,0.3)",
+        color: "#fff",
+        fontSize: "1rem"
+      }}
+      min="0"
+    />
+  </div>
 
-      {perdida > 0 ? (
-        <div className="text-center mt-2 p-2 rounded" style={{ background: "rgba(255,77,109,0.1)", border: "1px solid rgba(255,77,109,0.25)" }}>
-          <p style={{ fontSize: "0.7rem", color: "#ff4d6d", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: 4 }}>
-            Esto es lo que perdiste en tu último evento
-          </p>
-          <span style={{ color: "#ff4d6d", fontWeight: 800, fontSize: "1.8rem", lineHeight: 1 }}>
-            {fmt(perdida)}
-          </span>
-          <p style={{ fontSize: "0.72rem", color: "#aaa", marginTop: 4, marginBottom: 0 }}>
-            regalados a plataformas externas. Con tu propia ticketera: $0.
-          </p>
-        </div>
-      ) : (
-        <p style={{ fontSize: "0.72rem", color: "#888", textAlign: "center", marginTop: 6, marginBottom: 0 }}>
-          Ingresa tus números para ver cuánto estás perdiendo →
-        </p>
-      )}
+  {perdida > 0 ? (
+    <div className="text-center mt-2 p-3 rounded ticketera-resultado" style={{ background: "rgba(255,77,109,0.15)", border: "1px solid rgba(255,77,109,0.3)" }}>
+      <p style={{ fontSize: "0.7rem", color: "#ff4d6d", letterSpacing: "1.5px", marginBottom: 4 }}>
+        ⚠️ Esto es lo que perdiste en tu último evento
+      </p>
+      <span style={{ color: "#ff4d6d", fontWeight: 800, fontSize: "2rem", lineHeight: 1 }}>
+        {fmt(perdida)}
+      </span>
+      <p style={{ fontSize: "0.75rem", color: "#aaa", marginTop: 8, marginBottom: 0 }}>
+        regalados a plataformas externas.<br/>
+        <strong style={{ color: "#00f0a0" }}>Con tu propia ticketera: $0</strong>
+      </p>
     </div>
+  ) : (
+    <div className="text-center mt-2 p-3 rounded" style={{ background: "rgba(124,58,237,0.05)", border: "1px dashed rgba(124,58,237,0.3)" }}>
+      <p style={{ fontSize: "0.8rem", color: "#a78bfa", marginBottom: 0 }}>
+        💰 Ingresa tus números y te digo cuánto estás perdiendo
+      </p>
+    </div>
+  )}
+</div>
   );
 });
 
@@ -586,14 +592,15 @@ export const HomeScreen = () => {
                   className="card border-0 h-100 hover-card"
                   style={{
                     backgroundImage: "url('/img/Logo-VibraDigital.cl-FINAL.png')",
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                    backgroundColor: "#0f172a",
-                    backgroundPosition: "center",
+                    backgroundSize: "cover",        // ← agrega esto
+                    backgroundRepeat: "no-repeat",  // ← agrega esto
+                    backgroundPosition: "center",   // ← agrega esto
                     position: "relative",
                     overflow: "hidden",
                     minHeight: "260px",
-                  }}
+                    cursor: "pointer",
+                    cursor: "pointer",
+                    }}
                   onClick={() => track("case_click", "vibra_digital")}
                 >
                   <div className="card-overlay" />
@@ -622,26 +629,27 @@ export const HomeScreen = () => {
                 <div
                   className="card border-0 h-100 hover-card"
                   style={{ background: "#151515" }}
-                  onClick={() => track("case_click", "dashboard")}
+                  onClick={() => track("case_click", "ecommerce")}
                 >
                   <div className="card-body p-4">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                       <span className="badge px-3 py-2" style={{ background: "#0d6efd", color: "#ffffff" }}>
-                        Dashboard
+                        E-commerce
                       </span>
                       <span className="badge px-3 py-2" style={{ background: "#28a745", color: "#ffffff" }}>
                         +100%
                       </span>
                     </div>
                     <h3 className="h5 font-weight-bold mb-3 text-white">
-                      Panel administrativo
+                      Tienda online con carrito y pagos
                     </h3>
                     <p className="mb-0" style={{ color: "#cccccc" }}>
-                      Métricas en tiempo real. Adiós a los reportes manuales en Excel.
+                      Panel de administración, productos, ventas y clientes todo en un solo lugar.
                     </p>
                   </div>
                 </div>
               </div>
+
             </div>
 
             <p className="text-center text-white mt-4" style={{ fontSize: "1.2rem" }}>
