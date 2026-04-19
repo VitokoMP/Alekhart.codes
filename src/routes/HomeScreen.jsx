@@ -216,7 +216,7 @@ const FasesSection = React.memo(function FasesSection() {
   }, []);
 
   return (
-    <section className="fases-detalle-section py-5" style={{ background: "#0a0a0a" }}>
+    <section className="fases-detalle-section py-5" style={{ background: "#0a0a0a", overflow: "hidden" }}>
       <div className="container">
         <div className="row justify-content-center text-center mb-5">
           <div className="col-lg-8">
@@ -243,8 +243,8 @@ const FasesSection = React.memo(function FasesSection() {
           </div>
         </div>
 
-        {/* Cards de fases */}
-        <div className="row g-4 justify-content-center">
+        {/* Cards de fases — mx-0 evita el gutter negativo de Bootstrap que causa overflow en mobile */}
+        <div className="row g-4 justify-content-center mx-0">
           {FASES_DATA.map((fase) => (
             <div key={fase.id} className="col-md-6 col-lg-4">
               <div
@@ -444,8 +444,6 @@ export const HomeScreen = () => {
                 className="img-codes d-md-block mx-auto"
                 src="../img/Codes/Codes.png"
                 alt="codes"
-                style={{ maxWidth: "100%", height: "auto" }}
-
               />
 
               <br /><br /><br />
@@ -485,8 +483,8 @@ export const HomeScreen = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => track("cta_click", "hero_negocios")}
-                  className="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm hover-scale"
-                  style={{ fontSize: "1.1rem", fontWeight: 700, width: "100%", maxWidth: 260 }}
+                  className="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm hover-scale w-100"
+                  style={{ fontSize: "1.1rem", fontWeight: 700, maxWidth: 260 }}
                 >
                   Quiero automatizar mi negocio →
                 </a>
@@ -495,8 +493,8 @@ export const HomeScreen = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => track("cta_click", "hero_agencias")}
-                  className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill hover-scale"
-                  style={{ fontSize: "1rem", fontWeight: 600, width: "100%", maxWidth: 200 }}
+                  className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill hover-scale w-100"
+                  style={{ fontSize: "1rem", fontWeight: 600, maxWidth: 200 }}
                 >
                   Soy agencia →
                 </a>
@@ -633,8 +631,9 @@ export const HomeScreen = () => {
 
         {/* ════════════════════════════════════════════════════════
             SEPARADOR VISUAL — divide mundo negocios / agencias
+            FIX overflow: width 100% + overflow hidden
             ════════════════════════════════════════════════════════ */}
-        <div style={{ height: 2, background: "linear-gradient(90deg, transparent, rgba(13,110,253,0.4), transparent)" }} />
+        <div style={{ height: 2, width: "100%", overflow: "hidden", background: "linear-gradient(90deg, transparent, rgba(13,110,253,0.4), transparent)" }} />
 
         <section className="py-4" style={{ background: "#080810" }}>
           <div className="container text-center">
@@ -1099,6 +1098,17 @@ export const HomeScreen = () => {
           .hero-section .lead { font-size: 1rem !important; }
           .hero-section .btn { width: 100%; font-size: 1rem !important; }
           .hero-section .badge { font-size: 0.72rem; }
+        }
+        /* FIX OVERFLOW GLOBAL — corta cualquier desborde horizontal */
+        body, #root, .background-image-container {
+          overflow-x: hidden;
+          max-width: 100vw;
+        }
+        /* Cancela el margen negativo de Bootstrap rows en contextos sin container */
+        .background-image-container > section > .row,
+        .background-image-container > div > .row {
+          margin-left: 0;
+          margin-right: 0;
         }
         .video-card .video-bg {
           object-fit: cover;
