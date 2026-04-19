@@ -532,9 +532,8 @@ export const HomeScreen = () => {
                 fontWeight: 700,
               }}
             >
-              ¿TIENES UNA AGENCIA?
-              <BR />
-              <span className="text-primary">Esto es para ti.</span>
+              ¿TIENES UNA AGENCIA? <br/> 
+              ESTO ES PARA TI
             </span>
           </div>
         </section>
