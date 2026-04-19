@@ -1,4 +1,4 @@
-import React, { useContext, useState, useMemo, useCallback, useRef, useEffect } from "react";
+import React, { useContext, useState, useCallback, useRef, useEffect } from "react";
 import { UsuarioContext } from "../context/UsuarioContext";
 import FAQSection from "./Components/FAQSection";
 import { AboutScreen } from "./AboutScreen";
@@ -6,7 +6,6 @@ import ReactProjectsSlider from "./Components/ReactPRojectSlider";
 
 // ─────────────────────────────────────────────────────────────────
 // WA LINKS CENTRALIZADOS — CONGELADOS (Object.freeze)
-// Solo edita WA_NUMBER y los textos de cada mensaje
 // ─────────────────────────────────────────────────────────────────
 const WA_NUMBER = "56973156446";
 
@@ -35,7 +34,7 @@ const WA = Object.freeze({
 });
 
 // ─────────────────────────────────────────────────────────────────
-// TRACKING — conecta a GA/Meta Pixel con un solo cambio futuro
+// TRACKING
 // ─────────────────────────────────────────────────────────────────
 function track(event, label) {
   try {
@@ -47,13 +46,13 @@ function track(event, label) {
 
 // ─────────────────────────────────────────────────────────────────
 // COMPONENTE: Calculadora de pérdida Ticketera
-// OPTIMIZADO: React.memo + useCallback
+// FIX: useMemo eliminado del import (no se usaba)
 // ─────────────────────────────────────────────────────────────────
 const TicketeraCalc = React.memo(function TicketeraCalc() {
   const [entradas, setEntradas] = useState("");
   const [precio, setPrecio] = useState("");
   const perdida = (parseFloat(entradas) || 0) * (parseFloat(precio) || 0) * 0.1;
-  
+
   const fmt = useCallback(
     (n) => "$" + Math.round(n).toLocaleString("es-CL"),
     []
@@ -63,65 +62,87 @@ const TicketeraCalc = React.memo(function TicketeraCalc() {
   const handlePrecioChange = useCallback((e) => setPrecio(e.target.value), []);
 
   return (
-  <div className="mt-auto p-3 rounded-3 text-start ticketera-card">
-  
-  <div className="d-flex flex-column gap-2 mb-3">
-    <input
-      type="number"
-      placeholder="Entradas Vendidas: 500"
-      value={entradas}
-      onChange={handleEntradasChange}
-      className="form-control form-control-lg"
-      style={{
-        background: "rgba(124,58,237,0.1)",
-        border: "1px solid rgba(124,58,237,0.3)",
-        color: "#fff",
-        fontSize: "1rem"
-      }}
-      min="0"
-    />
-    <input
-      type="number"
-      placeholder="Valor entrada: $ 15000"
-      value={precio}
-      onChange={handlePrecioChange}
-      className="form-control form-control-lg"
-      style={{
-        background: "rgba(124,58,237,0.1)",
-        border: "1px solid rgba(124,58,237,0.3)",
-        color: "#fff",
-        fontSize: "1rem"
-      }}
-      min="0"
-    />
-  </div>
+    <div className="p-3 rounded-3 text-start">
+      <div className="d-flex flex-column gap-2 mb-3">
+        <input
+          type="number"
+          placeholder="Entradas Vendidas: 500"
+          value={entradas}
+          onChange={handleEntradasChange}
+          className="form-control form-control-lg"
+          style={{
+            background: "rgba(124,58,237,0.1)",
+            border: "1px solid rgba(124,58,237,0.3)",
+            color: "#fff",
+            fontSize: "1rem",
+          }}
+          min="0"
+        />
+        <input
+          type="number"
+          placeholder="Valor entrada: $ 15000"
+          value={precio}
+          onChange={handlePrecioChange}
+          className="form-control form-control-lg"
+          style={{
+            background: "rgba(124,58,237,0.1)",
+            border: "1px solid rgba(124,58,237,0.3)",
+            color: "#fff",
+            fontSize: "1rem",
+          }}
+          min="0"
+        />
+      </div>
 
-  {perdida > 0 ? (
-    <div className="text-center mt-2 p-3 rounded ticketera-resultado" style={{ background: "rgba(255,77,109,0.15)", border: "1px solid rgba(255,77,109,0.3)" }}>
-      <p style={{ fontSize: "0.7rem", color: "#ff4d6d", letterSpacing: "1.5px", marginBottom: 4 }}>
-        ⚠️ Esto es lo que perdiste en tu último evento
-      </p>
-      <span style={{ color: "#ff4d6d", fontWeight: 800, fontSize: "2rem", lineHeight: 1 }}>
-        {fmt(perdida)}
-      </span>
-      <p style={{ fontSize: "0.75rem", color: "#aaa", marginTop: 8, marginBottom: 0 }}>
-        regalados a plataformas externas.<br/>
-        <strong style={{ color: "#00f0a0" }}>Con tu propia ticketera: $0</strong>
-      </p>
+      {perdida > 0 ? (
+        <div
+          className="text-center mt-2 p-3 rounded"
+          style={{
+            background: "rgba(255,77,109,0.15)",
+            border: "1px solid rgba(255,77,109,0.3)",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "0.7rem",
+              color: "#ff4d6d",
+              letterSpacing: "1.5px",
+              marginBottom: 4,
+              textTransform: "uppercase",
+            }}
+          >
+            ⚠️ Esto es lo que perdiste en tu último evento
+          </p>
+          <span
+            style={{ color: "#ff4d6d", fontWeight: 800, fontSize: "2rem", lineHeight: 1 }}
+          >
+            {fmt(perdida)}
+          </span>
+          <p style={{ fontSize: "0.75rem", color: "#aaa", marginTop: 8, marginBottom: 0 }}>
+            regalados a plataformas externas.<br />
+            <strong style={{ color: "#00f0a0" }}>Con tu propia ticketera: $0</strong>
+          </p>
+        </div>
+      ) : (
+        <div
+          className="text-center mt-2 p-3 rounded"
+          style={{
+            background: "rgba(124,58,237,0.05)",
+            border: "1px dashed rgba(124,58,237,0.3)",
+          }}
+        >
+          <p style={{ fontSize: "0.8rem", color: "#a78bfa", marginBottom: 0 }}>
+            💰 Ingresa tus números y te digo cuánto estás perdiendo
+          </p>
+        </div>
+      )}
     </div>
-  ) : (
-    <div className="text-center mt-2 p-3 rounded" style={{ background: "rgba(124,58,237,0.05)", border: "1px dashed rgba(124,58,237,0.3)" }}>
-      <p style={{ fontSize: "0.8rem", color: "#a78bfa", marginBottom: 0 }}>
-        💰 Ingresa tus números y te digo cuánto estás perdiendo
-      </p>
-    </div>
-  )}
-</div>
   );
 });
 
 // ─────────────────────────────────────────────────────────────────
-// DATOS DE FASES — fuera del componente (estables)
+// DATOS DE FASES — fuera del componente (estables entre renders)
+// Calculadora movida a Fase 3 únicamente (FIX: evita duplicación)
 // ─────────────────────────────────────────────────────────────────
 const FASES_DATA = [
   {
@@ -130,16 +151,18 @@ const FASES_DATA = [
     icono: "📱",
     tag: "Fase 1 · Catálogo",
     titulo: "Vendo por Instagram y pierdo clientes en el DM",
-    descripcion: "No tienes forma de mostrar tu oferta con claridad ni de cobrar sin depender de WhatsApp.",
+    descripcion:
+      "No tienes forma de mostrar tu oferta con claridad ni de cobrar sin depender de WhatsApp.",
     beneficios: [
       "Catálogo web con tus productos o servicios",
       "Botón de contacto directo por producto",
       "Sin responder cada mensaje a mano",
-      "Diseño que refleja tu marca, no un template"
+      "Diseño que refleja tu marca, no un template",
     ],
     waLink: WA.fase1,
     trackId: "fase_1_catalogo",
-    destacada: false
+    destacada: false,
+    // sin calculadora
   },
   {
     id: "fase2",
@@ -147,16 +170,18 @@ const FASES_DATA = [
     icono: "🛒",
     tag: "Fase 2 · Tienda",
     titulo: "Tengo catálogo o web pero no convierte ni cobra solo",
-    descripcion: "Tienes presencia online pero el proceso de compra aún depende de ti para cerrarse.",
+    descripcion:
+      "Tienes presencia online pero el proceso de compra aún depende de ti para cerrarse.",
     beneficios: [
       "Tienda online con carrito y pago integrado",
       "Transbank nativo — sin salir del sitio",
       "Confirmación automática al cliente",
-      "Panel de pedidos sin depender de WhatsApp"
+      "Panel de pedidos sin depender de WhatsApp",
     ],
     waLink: WA.fase2,
     trackId: "fase_2_tienda",
-    destacada: false
+    destacada: false,
+    // sin calculadora
   },
   {
     id: "fase3",
@@ -164,21 +189,25 @@ const FASES_DATA = [
     icono: "🎟️",
     tag: "Fase 3 · Eventos",
     titulo: "Vendo eventos y el 10% de comisión se lo lleva otro",
-    descripcion: "Tu demanda es real pero la ticketera externa se queda con una parte de cada entrada vendida.",
+    descripcion:
+      "Tu demanda es real pero la ticketera externa se queda con una parte de cada entrada vendida.",
     beneficios: [
       "Ticketera instalada en tu sitio WordPress",
       "Venta de entradas con Transbank directo",
       "QR de validación en puerta incluido",
-      "0% comisión a plataformas externas"
+      "0% comisión a plataformas externas",
     ],
     waLink: WA.fase3,
     trackId: "fase_3_eventos",
-    destacada: true
-  }
+    destacada: true,
+    conCalculadora: true, // ← calculadora solo acá
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────
-// COMPONENTE: FasesSection (optimizado)
+// COMPONENTE: FasesSection
+// FIX 1: d-flex flex-column en card-body → altura uniforme y mt-auto funciona
+// FIX 2: faseCta en su propio row/col → no rompe el grid
 // ─────────────────────────────────────────────────────────────────
 const FasesSection = React.memo(function FasesSection() {
   const handleFaseClick = useCallback((fase) => {
@@ -208,11 +237,13 @@ const FasesSection = React.memo(function FasesSection() {
               ¿Cuánto estás <span className="text-primary">perdiendo</span> hoy?
             </h2>
             <p className="lead mt-3" style={{ color: "#aaaaaa" }}>
-              Cada fase tiene un problema específico. Y una solución específica. Sin forzar más de lo que necesitas.
+              Cada fase tiene un problema específico. Y una solución específica.
+              Sin forzar más de lo que necesitas.
             </p>
           </div>
         </div>
 
+        {/* Cards de fases */}
         <div className="row g-4 justify-content-center">
           {FASES_DATA.map((fase) => (
             <div key={fase.id} className="col-md-6 col-lg-4">
@@ -220,11 +251,14 @@ const FasesSection = React.memo(function FasesSection() {
                 className="card h-100 border-0 hover-card position-relative overflow-hidden"
                 style={{
                   background: "#11111f",
-                  borderTop: fase.destacada ? "3px solid #7c3aed" : "1px solid rgba(255,255,255,0.06)",
-                  cursor: "pointer"
+                  borderTop: fase.destacada
+                    ? "3px solid #7c3aed"
+                    : "1px solid rgba(255,255,255,0.06)",
+                  cursor: "pointer",
                 }}
                 onClick={() => handleFaseClick(fase)}
               >
+                {/* Número decorativo de fondo */}
                 <div
                   className="position-absolute"
                   style={{
@@ -234,21 +268,29 @@ const FasesSection = React.memo(function FasesSection() {
                     color: "rgba(255,255,255,0.03)",
                     bottom: "-10px",
                     right: "15px",
-                    pointerEvents: "none"
+                    pointerEvents: "none",
                   }}
                 >
                   {fase.numero}
                 </div>
-                <div className="card-body p-4" style={{ position: "relative", zIndex: 2 }}>
+
+                {/* FIX: d-flex flex-column → mt-auto funciona, altura uniforme */}
+                <div
+                  className="card-body p-4 d-flex flex-column"
+                  style={{ position: "relative", zIndex: 2 }}
+                >
                   <div className="display-4 mb-3">{fase.icono}</div>
                   <span
                     className="badge mb-2 px-3 py-2"
                     style={{
-                      background: fase.destacada ? "rgba(124,58,237,0.2)" : "rgba(59,130,246,0.15)",
+                      background: fase.destacada
+                        ? "rgba(124,58,237,0.2)"
+                        : "rgba(59,130,246,0.15)",
                       color: fase.destacada ? "#a78bfa" : "#3b82f6",
                       fontSize: "0.65rem",
                       letterSpacing: "1.5px",
-                      fontWeight: 700
+                      fontWeight: 700,
+                      alignSelf: "flex-start",
                     }}
                   >
                     {fase.tag}
@@ -261,28 +303,65 @@ const FasesSection = React.memo(function FasesSection() {
                     {fase.beneficios.map((beneficio, idx) => (
                       <div key={idx} className="d-flex align-items-start gap-2 mb-2">
                         <span style={{ color: "#10b981", fontSize: "1rem" }}>✓</span>
-                        <span style={{ color: "#d1d5db", fontSize: "0.8rem" }}>{beneficio}</span>
+                        <span style={{ color: "#d1d5db", fontSize: "0.8rem" }}>
+                          {beneficio}
+                        </span>
                       </div>
                     ))}
                   </div>
+
+                  {/* Calculadora solo en fase 3 */}
+                  {fase.conCalculadora && (
+                    <div
+                      className="mb-4"
+                      style={{
+                        background: "rgba(124,58,237,0.1)",
+                        border: "1px solid rgba(124,58,237,0.25)",
+                        borderRadius: "12px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <div className="px-3 pt-3">
+                        <p
+                          style={{
+                            fontSize: "0.7rem",
+                            color: "#a78bfa",
+                            letterSpacing: "1.5px",
+                            textTransform: "uppercase",
+                            marginBottom: 8,
+                          }}
+                        >
+                          Calculadora de pérdida
+                        </p>
+                      </div>
+                      <TicketeraCalc />
+                    </div>
+                  )}
+
+                  {/* CTA — mt-auto lo empuja al fondo gracias a d-flex flex-column */}
                   <div
-                    className="d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-3 text-center"
+                    className="mt-auto d-flex align-items-center justify-content-center gap-2 py-2 px-3 rounded-3 text-center"
                     style={{
                       background: fase.destacada ? "#7c3aed" : "#2563eb",
-                      borderRadius: "8px",
-                      transition: "all 0.2s ease"
+                      transition: "all 0.2s ease",
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = "translateY(-2px)";
-                      e.currentTarget.style.boxShadow = "0 8px 20px rgba(37,99,235,0.3)";
+                      e.currentTarget.style.boxShadow =
+                        "0 8px 20px rgba(37,99,235,0.3)";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = "translateY(0)";
                       e.currentTarget.style.boxShadow = "none";
                     }}
                   >
-                    <span className="text-white fw-semibold" style={{ fontSize: "0.85rem" }}>
-                      {fase.destacada ? "Quiero la Ticketera →" : `Estoy en ${fase.tag} →`}
+                    <span
+                      className="text-white fw-semibold"
+                      style={{ fontSize: "0.85rem" }}
+                    >
+                      {fase.destacada
+                        ? "Quiero la Ticketera →"
+                        : `Estoy en ${fase.tag} →`}
                     </span>
                   </div>
                 </div>
@@ -290,6 +369,34 @@ const FasesSection = React.memo(function FasesSection() {
             </div>
           ))}
         </div>
+
+        {/* FIX: faseCta en su propio row/col — no rompe el grid, no parece card mal hecha */}
+        <div className="row justify-content-center mt-5">
+          <div className="col-lg-6 text-center">
+            <div
+              className="p-4 rounded-4"
+              style={{
+                background: "rgba(255,255,255,0.03)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <p style={{ color: "#aaa", fontSize: "0.9rem", marginBottom: 12 }}>
+                ¿No estás seguro en qué fase estás?
+              </p>
+              <a
+                href={WA.faseCta}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => track("cta_click", "fase_no_se")}
+                className="btn btn-outline-light px-4 py-2 rounded-pill"
+                style={{ fontSize: "0.9rem" }}
+              >
+                Dime tu caso → lo veo contigo
+              </a>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );
@@ -303,11 +410,10 @@ export const HomeScreen = () => {
   const [hovered, setHovered] = useState(false);
   const videoRef = useRef(null);
 
-  // Efecto optimizado para el video (evita side-effects en render)
+  // FIX: useEffect para video — sin side-effects en render
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
-
     if (hovered) {
       el.play().catch(() => {});
     } else {
@@ -327,7 +433,7 @@ export const HomeScreen = () => {
     <div>
 
       {/* ════════════════════════════════════════════════════════
-          HERO — CAMBIO 1: Hero split con doble entrada
+          HERO — split con doble entrada
           ════════════════════════════════════════════════════════ */}
       <section className="hero-section text-center">
         <div className="container">
@@ -335,16 +441,16 @@ export const HomeScreen = () => {
             <div className="col-12 col-md-10">
 
               <img
-                className="img-codes d-md-block mx-auto"
+                className="img-codes d-none d-md-block mx-auto"
                 src="../img/Codes/Codes.png"
                 alt="codes"
               />
 
-              <br /><br />
+              <br /><br /><br />
 
               <div className="mb-3 text-uppercase fw-bold"
                 style={{ letterSpacing: "3px", color: "#0d6efd", fontSize: "0.85rem" }}>
-                Sistemas digitales · Latinoamerica
+                Sistemas digitales · Latinoamérica
               </div>
 
               <h1 className="display-4 font-weight-bold mt-3" style={{ lineHeight: 1.1 }}>
@@ -404,10 +510,11 @@ export const HomeScreen = () => {
 
       <div className="background-image-container">
 
-        {/* NUEVA SECCIÓN DE FASES */}
-        <FasesSection />
-
-        {/* SECCIÓN NEGOCIOS / TICKETERA */}
+        {/* ════════════════════════════════════════════════════════
+            SECCIÓN NEGOCIOS — antes de fases
+            FIX de orden: dolor → features → fases (diagnóstico)
+            Calculadora removida aquí (queda solo en Fase 3)
+            ════════════════════════════════════════════════════════ */}
         <section className="py-5" style={{ background: "#0a0a0a" }}>
           <div className="container">
             <div className="row justify-content-center text-center mb-5">
@@ -425,6 +532,7 @@ export const HomeScreen = () => {
             </div>
 
             <div className="row g-4 justify-content-center mb-5">
+
               <div className="col-md-6 col-lg-4">
                 <div
                   className="card h-100 border-0 p-4 text-center hover-card"
@@ -453,6 +561,7 @@ export const HomeScreen = () => {
                 </div>
               </div>
 
+              {/* Ticketera sin calculadora — calculadora vive en Fase 3 */}
               <div className="col-md-6 col-lg-4">
                 <div
                   className="card h-100 border-0 p-4 text-center hover-card"
@@ -465,20 +574,19 @@ export const HomeScreen = () => {
                 >
                   <div className="display-4 mb-3">🎟️</div>
                   <h4 className="text-white mb-2">Ticketera propia — 0% comisión</h4>
-                  <p style={{ color: "#bbbbbb" }} className="mb-3">
-                    Transbank directo en tu sitio. QR en puerta incluido. Sin regalarle el 10% a nadie.
+                  <p style={{ color: "#bbbbbb" }}>
+                    Transbank directo en tu sitio. QR en puerta incluido. Sin regalarle
+                    el 10% a plataformas externas.
                   </p>
                   <div
-                    className="mt-auto p-3 rounded-3 text-start"
+                    className="mt-auto pt-3"
                     style={{
-                      background: "rgba(124,58,237,0.1)",
-                      border: "1px solid rgba(124,58,237,0.25)",
+                      borderTop: "1px solid rgba(124,58,237,0.2)",
+                      fontSize: "0.8rem",
+                      color: "#a78bfa",
                     }}
                   >
-                    <p style={{ fontSize: "0.7rem", color: "#a78bfa", letterSpacing: "1.5px", textTransform: "uppercase", marginBottom: 8 }}>
-                      Calculadora de pérdida
-                    </p>
-                    <TicketeraCalc />
+                    ↓ Calculá tu ahorro real en la Fase 3
                   </div>
                 </div>
               </div>
@@ -516,7 +624,14 @@ export const HomeScreen = () => {
           </div>
         </section>
 
-        {/* SEPARADOR VISUAL */}
+        {/* ════════════════════════════════════════════════════════
+            FASES — va después de negocios (flujo correcto)
+            ════════════════════════════════════════════════════════ */}
+        <FasesSection />
+
+        {/* ════════════════════════════════════════════════════════
+            SEPARADOR VISUAL — divide mundo negocios / agencias
+            ════════════════════════════════════════════════════════ */}
         <div style={{ height: 2, background: "linear-gradient(90deg, transparent, rgba(13,110,253,0.4), transparent)" }} />
 
         <section className="py-4" style={{ background: "#080810" }}>
@@ -532,8 +647,7 @@ export const HomeScreen = () => {
                 fontWeight: 700,
               }}
             >
-              ¿TIENES UNA AGENCIA? <br/> 
-              ESTO ES PARA TI
+              ¿TIENES UNA AGENCIA? — ESTO ES PARA TI
             </span>
           </div>
         </section>
@@ -593,15 +707,14 @@ export const HomeScreen = () => {
                   className="card border-0 h-100 hover-card"
                   style={{
                     backgroundImage: "url('/img/Logo-VibraDigital.cl-FINAL.png')",
-                    backgroundSize: "cover",        // ← agrega esto
-                    backgroundRepeat: "no-repeat",  // ← agrega esto
-                    backgroundPosition: "center",   // ← agrega esto
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
                     position: "relative",
                     overflow: "hidden",
                     minHeight: "260px",
                     cursor: "pointer",
-                    cursor: "pointer",
-                    }}
+                  }}
                   onClick={() => track("case_click", "vibra_digital")}
                 >
                   <div className="card-overlay" />
@@ -650,7 +763,6 @@ export const HomeScreen = () => {
                   </div>
                 </div>
               </div>
-
             </div>
 
             <p className="text-center text-white mt-4" style={{ fontSize: "1.2rem" }}>
@@ -674,7 +786,6 @@ export const HomeScreen = () => {
                 </p>
               </div>
             </div>
-
             <div className="row align-items-center justify-content-center">
               <div className="col-lg-5 mb-4">
                 <div className="text-center">
@@ -687,7 +798,6 @@ export const HomeScreen = () => {
                 </div>
               </div>
             </div>
-
             <div className="row text-center mt-5">
               <div className="col-md-4 mb-3">
                 <div className="p-3">
@@ -953,7 +1063,6 @@ export const HomeScreen = () => {
                     conversación de diagnóstico.
                   </p>
                 </div>
-
                 <div className="text-center">
                   <a
                     href={WA.agencias}
@@ -979,6 +1088,75 @@ export const HomeScreen = () => {
         <AboutScreen />
       </div>
 
+      {/* ════════════════════════════════════════════════════════
+          ESTILOS — originales intactos + fixes
+          ════════════════════════════════════════════════════════ */}
+      <style jsx>{`
+        @media (max-width: 576px) {
+          .hero-section h1 { font-size: 1.75rem !important; line-height: 1.3; }
+          .hero-section .lead { font-size: 1rem !important; }
+          .hero-section .btn { width: 100%; font-size: 1rem !important; }
+          .hero-section .badge { font-size: 0.72rem; }
+        }
+        .video-card .video-bg {
+          object-fit: cover;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+        .video-card:hover .video-bg { opacity: 1; }
+        .overlay {
+          position: absolute; inset: 0;
+          background: rgba(0,0,0,0.4);
+          transition: opacity 0.3s ease;
+          z-index: 1;
+        }
+        .overlay.hide { opacity: 0; }
+        .card-content {
+          position: relative; z-index: 2;
+          padding: 1.5rem; height: 100%;
+          display: flex; flex-direction: column;
+          justify-content: space-between;
+          text-align: center;
+          transition: opacity 0.3s ease;
+        }
+        .card-content.hide { opacity: 0; }
+        .card-top { flex-shrink: 0; }
+        .card-center {
+          flex-grow: 1; display: flex;
+          flex-direction: column; justify-content: center;
+        }
+        .play-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .title { font-size: 1.1rem; font-weight: 700; }
+        .card-text { font-size: 0.9rem; color: #ccc; }
+        .video-card { min-height: 320px; width: 100%; }
+        @media (min-width: 1200px) { .video-card { max-height: 280px; } }
+        @media (min-width: 992px) and (max-width: 1199px) { .video-card { max-height: 260px; } }
+        @media (max-width: 991px) {
+          .video-card { min-height: 260px; }
+          .title { font-size: 1rem; }
+          .play-icon { font-size: 2rem; }
+        }
+        @media (max-width: 576px) {
+          .video-card { min-height: 220px; }
+          .card-content { padding: 1rem; }
+        }
+        .hover-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 1rem 2rem rgba(0,0,0,0.3) !important;
+        }
+        .hover-scale { transition: transform 0.3s ease; }
+        .hover-scale:hover { transform: scale(1.05); }
+        .badge { font-size: 0.9rem; font-weight: 500; }
+        .form-control, .form-select {
+          border: 1px solid #dee2e6;
+          padding: 0.75rem 1rem;
+        }
+        .form-control:focus, .form-select:focus {
+          border-color: #0d6efd;
+          box-shadow: 0 0 0 0.2rem rgba(13,110,253,0.25);
+        }
+      `}</style>
     </div>
   );
-} 
+};
