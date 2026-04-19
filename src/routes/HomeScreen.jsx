@@ -441,7 +441,7 @@ export const HomeScreen = () => {
             <div className="col-12 col-md-10">
 
               <img
-                className="img-codes d-none d-md-block mx-auto"
+                className="img-codes d-md-block mx-auto"
                 src="../img/Codes/Codes.png"
                 alt="codes"
               />
