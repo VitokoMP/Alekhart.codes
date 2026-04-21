@@ -58,79 +58,54 @@ const TicketeraCalc = React.memo(function TicketeraCalc() {
     []
   );
 
-  const handleEntradasChange = useCallback((e) => setEntradas(e.target.value), []);
-  const handlePrecioChange = useCallback((e) => setPrecio(e.target.value), []);
-
   return (
-    <div className="p-3 rounded-3 text-start">
+    <div className="p-3 rounded-3 text-start" onClick={(e) => e.stopPropagation()}>
       <div className="d-flex flex-column gap-2 mb-3">
         <input
           type="number"
           placeholder="Entradas Vendidas: 500"
           value={entradas}
-          onChange={handleEntradasChange}
+          onChange={(e) => setEntradas(e.target.value)}
           className="form-control form-control-lg"
-          style={{
-            background: "rgba(124,58,237,0.1)",
-            border: "1px solid rgba(124,58,237,0.3)",
-            color: "#fff",
-            fontSize: "1rem",
-          }}
+          style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", color: "#fff", fontSize: "1rem" }}
           min="0"
         />
         <input
           type="number"
           placeholder="Valor entrada: $ 15000"
           value={precio}
-          onChange={handlePrecioChange}
+          onChange={(e) => setPrecio(e.target.value)}
           className="form-control form-control-lg"
-          style={{
-            background: "rgba(124,58,237,0.1)",
-            border: "1px solid rgba(124,58,237,0.3)",
-            color: "#fff",
-            fontSize: "1rem",
-          }}
+          style={{ background: "rgba(124,58,237,0.1)", border: "1px solid rgba(124,58,237,0.3)", color: "#fff", fontSize: "1rem" }}
           min="0"
         />
       </div>
 
       {perdida > 0 ? (
-        <div
-          className="text-center mt-2 p-3 rounded"
-          style={{
-            background: "rgba(255,77,109,0.15)",
-            border: "1px solid rgba(255,77,109,0.3)",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "0.7rem",
-              color: "#ff4d6d",
-              letterSpacing: "1.5px",
-              marginBottom: 4,
-              textTransform: "uppercase",
-            }}
-          >
+        <div className="text-center mt-2 p-3 rounded" style={{ background: "rgba(255,77,109,0.15)", border: "1px solid rgba(255,77,109,0.3)" }}>
+          <p style={{ fontSize: "0.7rem", color: "#ff4d6d", letterSpacing: "1.5px", marginBottom: 4, textTransform: "uppercase" }}>
             ⚠️ Esto es lo que perdiste en tu último evento
           </p>
-          <span
-            style={{ color: "#ff4d6d", fontWeight: 800, fontSize: "2rem", lineHeight: 1 }}
-          >
+          <span style={{ color: "#ff4d6d", fontWeight: 800, fontSize: "2rem", lineHeight: 1 }}>
             {fmt(perdida)}
           </span>
-          <p style={{ fontSize: "0.75rem", color: "#aaa", marginTop: 8, marginBottom: 0 }}>
+          <p style={{ fontSize: "0.75rem", color: "#aaa", marginTop: 8, marginBottom: 12 }}>
             regalados a plataformas externas.<br />
             <strong style={{ color: "#00f0a0" }}>Con tu propia ticketera: $0</strong>
           </p>
+          <a
+            href={`https://wa.me/56973156446?text=${encodeURIComponent(`Hola, calculé que perdí ${fmt(perdida)} en comisiones. Quiero ver la Ticketera.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="btn btn-success btn-sm w-100 rounded-pill"
+            style={{ fontSize: "0.85rem", fontWeight: 700 }}
+          >
+            Quiero recuperar {fmt(perdida)} →
+          </a>
         </div>
       ) : (
-        <div
-          className="text-center mt-2 p-3 rounded"
-          style={{
-            background: "rgba(124,58,237,0.05)",
-            border: "1px dashed rgba(124,58,237,0.3)",
-          }}
-        >
+        <div className="text-center mt-2 p-3 rounded" style={{ background: "rgba(124,58,237,0.05)", border: "1px dashed rgba(124,58,237,0.3)" }}>
           <p style={{ fontSize: "0.8rem", color: "#a78bfa", marginBottom: 0 }}>
             💰 Ingresa tus números y te digo cuánto estás perdiendo
           </p>
@@ -314,6 +289,7 @@ const FasesSection = React.memo(function FasesSection() {
                   {fase.conCalculadora && (
                     <div
                       className="mb-4"
+                      onClick={(e) => e.stopPropagation()}
                       style={{
                         background: "rgba(124,58,237,0.1)",
                         border: "1px solid rgba(124,58,237,0.25)",
