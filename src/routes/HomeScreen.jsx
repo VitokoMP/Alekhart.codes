@@ -430,8 +430,8 @@ export const HomeScreen = () => {
               </div>
 
               <h1 className="display-4 font-weight-bold mt-3" style={{ lineHeight: 1.1 }}>
-                Tu negocio ya vende.{" "}
-                <span className="text-primary">Pero estás perdiendo ventas todos los días.</span>
+                Automatización, e-commerce y sistemas críticos  {" "}
+                <span className="text-primary">para negocios y agencias en crecimiento</span>
               </h1>
 
               <p className="lead mt-4 mb-4"
@@ -442,40 +442,49 @@ export const HomeScreen = () => {
                   margin: "0 auto",
                   fontWeight: "500",
                 }}>
-                Si vendes por mensajes, dependes de procesos manuales o tu agencia
-                no puede entregar todo lo que cierra —{" "}
-                <strong>hay clientes cayéndose ahora mismo</strong>.
+                WordPress/WooCommerce + React especializado en{" "}
+                <strong> debugging complejo, performance y arquitectura headless.</strong>.
               </p>
 
               <div className="d-flex justify-content-center flex-wrap gap-3 mb-5">
                 <span className="badge bg-dark text-white px-4 py-2">+11 años</span>
-                <span className="badge bg-dark text-white px-4 py-2">Sistemas en producción</span>
+                <span className="badge bg-dark text-white px-4 py-2">Construyendo Sistemas en producción</span>
                 <span className="badge bg-dark text-white px-4 py-2">Chile</span>
               </div>
 
-              <div className="d-flex flex-column flex-sm-row justify-content-center align-items-center gap-3 mb-4">
+              <div className="d-flex flex-column align-items-center gap-3 mb-4">
+
+                {/* CTA principal */}
                 <a
-                  href={WA.negocios}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track("cta_click", "hero_negocios")}
-                  className="btn btn-success btn-lg px-5 py-3 rounded-pill shadow-sm hover-scale w-100"
-                  style={{ fontSize: "1.1rem", fontWeight: 700, maxWidth: 260 }}
+                  href="#casos"
+                  onClick={() => track("cta_click", "hero_ver_como_funciona")}
+                  className="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-sm hover-scale w-100"
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: 700,
+                    maxWidth: 320,
+                  }}
                 >
-                  Quiero automatizar mi negocio →
+                  Ver cómo funciona →
                 </a>
+
+                {/* CTA secundario */}
                 <a
                   href={WA.agencias}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => track("cta_click", "hero_agencias")}
-                  className="btn btn-outline-light btn-lg px-4 py-3 rounded-pill hover-scale w-100"
-                  style={{ fontSize: "1rem", fontWeight: 600, maxWidth: 200 }}
+                  className="text-decoration-none"
+                  style={{
+                    color: "#9ca3af",
+                    fontSize: "0.95rem",
+                    fontWeight: 500,
+                  }}
                 >
-                  Soy agencia →
+                  ¿Tienes una agencia? →
                 </a>
-              </div>
 
+              </div>
               <p className="text-muted small" style={{ maxWidth: "500px", margin: "0 auto" }}>
                 Sin formularios. Sin esperas. Respondo en menos de 24 h.
               </p>
@@ -633,7 +642,7 @@ export const HomeScreen = () => {
         </section>
 
         {/* CASOS DE ÉXITO */}
-        <section className="py-5" style={{ background: "#0a0a0a" }}>
+        <section id="casos" className="py-5" style={{ background: "#0a0a0a" }}>
           <div className="container">
             <div className="row">
               <div className="col-12 text-center mb-5">
@@ -752,6 +761,47 @@ export const HomeScreen = () => {
           </div>
         </section>
 
+        {/* ¿CUÁNDO TIENE SENTIDO TRAERME? */}
+        <section className="py-5" style={{ background: "#ffffff" }}>
+          <div className="container">
+            <div className="row justify-content-center">
+              <div className="col-lg-8 text-center mb-5">
+                <span className="badge bg-primary text-white px-3 py-2 mb-3"
+                  style={{ fontSize: "0.9rem" }}>
+                  ROL ESTRATÉGICO · AGENCIAS
+                </span>
+                <h2 className="display-5 font-weight-bold mb-4" style={{ color: "#212529" }}>
+                  ¿Cuándo tiene sentido traerme?
+                </h2>
+              </div>
+            </div>
+            <div className="row justify-content-center">
+              <div className="col-lg-8">
+                <div className="p-5 rounded-4 shadow-sm"
+                  style={{ background: "#f8f9fa", borderLeft: "4px solid #0d6efd" }}>
+                  <p className="lead mb-4"
+                    style={{ fontSize: "1.25rem", color: "#212529", lineHeight: "1.7" }}>
+                    Entro cuando tu proyecto necesita escalar y la arquitectura
+                    empieza a generar fricción. Cuando el equipo interno tiene la
+                    capacidad, pero no el ancho de banda para intervenir un módulo
+                    crítico o pagar deuda técnica sin frenar la hoja de ruta.
+                  </p>
+                  <p className="mb-4" style={{ fontSize: "1.1rem", color: "#495057" }}>
+                    No siempre es una urgencia con incendios. Es una decisión
+                    estratégica: cuando esa capa técnica no se resuelve con calidad,
+                    el cliente empieza a percibir fricción en la entrega.
+                  </p>
+                  <p className="fw-bold mb-0"
+                    style={{ fontSize: "1.1rem", color: "#0d6efd" }}>
+                    Me hago cargo del sistema complejo, lo estabilizo y lo devuelvo
+                    optimizado para que el equipo continúe sobre terreno firme.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* TESTIMONIO DE CLIENTE */}
         <section className="py-5" style={{ background: "#0a0a0a" }}>
           <div className="container">
@@ -825,46 +875,6 @@ export const HomeScreen = () => {
           </div>
         </section>
 
-        {/* ¿CUÁNDO TIENE SENTIDO TRAERME? */}
-        <section className="py-5" style={{ background: "#ffffff" }}>
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-lg-8 text-center mb-5">
-                <span className="badge bg-primary text-white px-3 py-2 mb-3"
-                  style={{ fontSize: "0.9rem" }}>
-                  ROL ESTRATÉGICO · AGENCIAS
-                </span>
-                <h2 className="display-5 font-weight-bold mb-4" style={{ color: "#212529" }}>
-                  ¿Cuándo tiene sentido traerme?
-                </h2>
-              </div>
-            </div>
-            <div className="row justify-content-center">
-              <div className="col-lg-8">
-                <div className="p-5 rounded-4 shadow-sm"
-                  style={{ background: "#f8f9fa", borderLeft: "4px solid #0d6efd" }}>
-                  <p className="lead mb-4"
-                    style={{ fontSize: "1.25rem", color: "#212529", lineHeight: "1.7" }}>
-                    Entro cuando tu proyecto necesita escalar y la arquitectura
-                    empieza a generar fricción. Cuando el equipo interno tiene la
-                    capacidad, pero no el ancho de banda para intervenir un módulo
-                    crítico o pagar deuda técnica sin frenar la hoja de ruta.
-                  </p>
-                  <p className="mb-4" style={{ fontSize: "1.1rem", color: "#495057" }}>
-                    No siempre es una urgencia con incendios. Es una decisión
-                    estratégica: cuando esa capa técnica no se resuelve con calidad,
-                    el cliente empieza a percibir fricción en la entrega.
-                  </p>
-                  <p className="fw-bold mb-0"
-                    style={{ fontSize: "1.1rem", color: "#0d6efd" }}>
-                    Me hago cargo del sistema complejo, lo estabilizo y lo devuelvo
-                    optimizado para que el equipo continúe sobre terreno firme.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* PROCESO */}
         <section className="py-5" style={{ background: "#f8f9fa" }}>
